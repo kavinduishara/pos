@@ -19,7 +19,7 @@ function App() {
           <Route path='/signUp' element={<SignUp/>}/>
         </Route>
         <Route path='/home/'element={<ProtectedLayout/>}>
-          <Route path='homepage' element={<HomePage/>}/>
+          <Route index element={<HomePage/>}/>
           <Route path='bills' element={<Bills/>}/>
         </Route>
       </Routes>

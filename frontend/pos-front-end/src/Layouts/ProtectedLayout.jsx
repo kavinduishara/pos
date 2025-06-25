@@ -9,7 +9,7 @@ function ProtectedLayout(params) {
     const auth=useAuth()
 
     const array=[
-    {link:'homepage'         ,text:'Home'    ,icon:Home     ,element:<HomePage/> },
+    {link:''         ,text:'Home'    ,icon:Home     ,element:<HomePage/> },
     ]
 
     return(
