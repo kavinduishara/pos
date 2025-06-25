@@ -1,0 +1,30 @@
+import React from "react"
+import { NavLink } from "react-router-dom"
+
+
+function VerticalNavigationBar(params) {
+  const listitems = params.list.map((item, index) => {
+    const Icon = item.icon
+
+    return (
+      <div key={index} className="group relative flex items-center justify-center p-3 m-3">
+        <NavLink to={item.link} className="group">
+          {({ isActive }) => (
+            <>
+              <Icon
+                className={`duration-300 ease-in ${isActive ? "text-sky-500" : "text-white"} group-hover:text-sky-700`}
+              />
+              <span className="absolute left-full ml-2 text-white text-sm bg-sky-800 px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition duration-300">
+                {item.text}
+              </span>
+            </>
+          )}
+        </NavLink>
+      </div>
+    )
+  })
+
+  return <nav className="fixed top-0 left-0 h-full bg-sky-950">{listitems}</nav>
+}
+
+export default VerticalNavigationBar

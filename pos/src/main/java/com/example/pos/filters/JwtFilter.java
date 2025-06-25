@@ -32,14 +32,9 @@ public class JwtFilter extends OncePerRequestFilter {
         String token = null;
         String username = null;
 
-        // ✅ Read token from cookies instead of Authorization header
-
-        System.out.println("tocken:::::");
 
         if (request.getCookies() != null) {
-            System.out.println("not null::::");
             for (var cookie : request.getCookies()) {
-                System.out.println(cookie.getName());
                 if ("access_token".equals(cookie.getName())) {
                     token = cookie.getValue();
                     System.out.println(token);
@@ -48,7 +43,6 @@ public class JwtFilter extends OncePerRequestFilter {
             }
         }
 
-        // ✅ Extract and validate token
         if (token != null) {
             try {
                 username = jwtService.extractUserName(token);
@@ -77,7 +71,6 @@ public class JwtFilter extends OncePerRequestFilter {
                 }
 
             } catch (JwtException e) {
-                // Optional: handle invalid token format
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 response.setContentType("application/json");
                 response.getWriter().write("{\"error\": \"Invalid token\"}");

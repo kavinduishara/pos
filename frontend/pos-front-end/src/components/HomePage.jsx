@@ -5,8 +5,8 @@ function HomePage(params) {
     const auth = useAuth();
     return(
         <>
-          <h1>home</h1>
-          <h1>{auth.logedin?"login":"do not"}</h1>
+          <h1>ppppppppppppppppppppppppppppppppppppp</h1>
+          <h1>ppppppppppppppppppppppppppppppp</h1>
         </>
     )
 }

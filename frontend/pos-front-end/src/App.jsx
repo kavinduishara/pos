@@ -6,23 +6,23 @@ import AuthLayout from './Layouts/AuthLayout';
 import SignUp from './components/SignUp';
 import ProtectedLayout from './Layouts/ProtectedLayout';
 import HomePage from './components/HomePage';
+import Bills from './components/Bills';
 
 
 function App() {
 
   return (
     <>
-    <AuthProvider>
       <Routes>
-        <Route element={<AuthLayout/>}>
+        <Route path='/'element={<AuthLayout/>}>
           <Route path='/login' element={<Login/>}/>
           <Route path='/signUp' element={<SignUp/>}/>
         </Route>
-        <Route element={<ProtectedLayout/>}>
-          <Route path='/home' element={<HomePage/>}/>
+        <Route path='/home/'element={<ProtectedLayout/>}>
+          <Route path='homepage' element={<HomePage/>}/>
+          <Route path='bills' element={<Bills/>}/>
         </Route>
       </Routes>
-    </AuthProvider>
     </>
   )
 }
