@@ -1,23 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useUpdateAuth } from '../context/Authcontext';
 import api from '../utils/api';
-import { useEffect } from 'react';
 
 function ChooseStore() {
   const setAuth = useUpdateAuth();
   const [shopName, setShopName] = useState('');
 
-  useEffect(async () => {
-    try {
-      const response = await api.post('/shop/getmyshoplist');
-      console.log('Shop created:', response.data);
+  useEffect(() => {
+    const fetchShops = async () => {
+      try {
+        const response = await api.get('/shop/getmyshoplist');
+        console.log('My Shops:', response.data);
 
-      setAuth(true, shopName);
-    } catch (error) {
-      console.error('Failed to create shop:', error);
-      alert('Error creating shop. Check console for details.');
-    }
-  }, []);
+        // Optionally auto-select first shop if available
+        if (response.data.length > 0) {
+          const firstShop = response.data[0];
+          setShopName(firstShop.shopName);
+          setAuth(true, firstShop.shopName); // or use a shop ID if needed
+        }
+      } catch (error) {
+        console.error('Failed to fetch shop list:', error);
+        alert('Error fetching your shops.');
+      }
+    };
+
+    fetchShops();
+  }, [setAuth]);
 
   const submit = async (e) => {
     e.preventDefault();
