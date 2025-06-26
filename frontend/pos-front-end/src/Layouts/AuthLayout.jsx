@@ -7,7 +7,7 @@ function AuthLayout(params) {
 
     return(
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
-            {auth.logedin?<Navigate to={"../home/"}/>:<Outlet/>}
+            {auth.logedin?<Navigate to={"app/"}/>:<Outlet/>}
         </div>
     )
     

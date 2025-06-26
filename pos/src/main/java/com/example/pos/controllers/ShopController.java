@@ -1,12 +1,14 @@
 package com.example.pos.controllers;
 
 import com.example.pos.dto.ShopDTO;
+import com.example.pos.entities.UserShop;
 import com.example.pos.service.MyUserDetailsService;
 import com.example.pos.service.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -26,5 +28,9 @@ public class ShopController {
     @GetMapping("/getshopdetails/{shopId}")
     public ShopDTO getshop(@PathVariable Long shopId){
         return shopService.getShop(shopId);
+    }
+    @GetMapping("/getmyshoplist")
+    public List<UserShop> getmyshoplist(Principal principal){
+        return shopService.getMyShops(principal);
     }
 }

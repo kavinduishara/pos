@@ -21,7 +21,7 @@ function Login() {
       console.log('Login Success:', data);
       alert('Login successful!');
       setIsLoggedIn(true);
-      navigate("../home/")
+      navigate("../app/")
       
       setAuth({logedin:true,user:"sfddf"})
 

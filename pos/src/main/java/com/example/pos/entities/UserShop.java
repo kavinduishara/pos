@@ -28,5 +28,12 @@ public class UserShop {
     private Role role;
 
     private LocalDateTime joinedAt;
+
+    public UserShop(User user, Shop shop, Role role, LocalDateTime joinedAt) {
+        this.user = user;
+        this.shop = shop;
+        this.role = role;
+        this.joinedAt = joinedAt;
+    }
 }
 

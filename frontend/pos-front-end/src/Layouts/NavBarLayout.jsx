@@ -5,15 +5,20 @@ import HomePage from "../components/HomePage";
 import { Home } from "lucide-react";
 import VerticalNavigationBar from "../components/VerticalNavigationBar";
 
-function ProtectedLayout(params) {
+function NavBarLayout(params) {
     const auth=useAuth()
 
-    console.log("from protected "+auth);
+    const array=[
+    {link:''         ,text:'Home'    ,icon:Home     ,element:<HomePage/> },
+    ]
 
     return(
         <>
+            <VerticalNavigationBar list={array}/>
             {auth.logedin?
+            <main className="ml-20 p-6">
             <Outlet />
+            </main>
             :
             <Navigate to={"../login/"}/>
             }
@@ -23,4 +28,4 @@ function ProtectedLayout(params) {
     )
     
 }
-export default ProtectedLayout;
+export default NavBarLayout;
