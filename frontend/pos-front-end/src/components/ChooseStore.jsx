@@ -2,22 +2,33 @@ import React, { useState, useEffect } from 'react';
 import { useUpdateAuth } from '../context/Authcontext';
 import api from '../utils/api';
 
+export function ListGenerater({ list }) {
+  const listitems = list.map((e, index) => (
+    <p key={index}>{e.shop.shopName}</p>
+  ));
+
+  return <div>{listitems}</div>;
+}
+
 function ChooseStore() {
   const setAuth = useUpdateAuth();
   const [shopName, setShopName] = useState('');
+  const [shops,setShop]=useState([])
 
+  useEffect(()=>{
+    shops.forEach(e => {
+      console.log(e.shop.shopName)
+    })
+  },[shops])
   useEffect(() => {
     const fetchShops = async () => {
       try {
         const response = await api.get('/shop/getmyshoplist');
         console.log('My Shops:', response.data);
+        setShop(response.data)
+        
+        
 
-        // Optionally auto-select first shop if available
-        if (response.data.length > 0) {
-          const firstShop = response.data[0];
-          setShopName(firstShop.shopName);
-          setAuth(true, firstShop.shopName); // or use a shop ID if needed
-        }
       } catch (error) {
         console.error('Failed to fetch shop list:', error);
         alert('Error fetching your shops.');
@@ -25,7 +36,9 @@ function ChooseStore() {
     };
 
     fetchShops();
-  }, [setAuth]);
+
+    
+  }, []);
 
   const submit = async (e) => {
     e.preventDefault();
@@ -45,6 +58,8 @@ function ChooseStore() {
   return (
     <>
       <h1>Store Selection</h1>
+      <ListGenerater list={shops}/>
+
       <form onSubmit={submit}>
         <input
           type="text"

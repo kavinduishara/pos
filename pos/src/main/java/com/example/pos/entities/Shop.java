@@ -1,5 +1,6 @@
 package com.example.pos.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,6 +25,7 @@ public class Shop {
     private String shopName;
 
     @OneToMany(mappedBy = "shop")
+    @JsonIgnore
     private Set<UserShop> userAssignments = new HashSet<>();
 
 

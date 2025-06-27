@@ -36,7 +36,6 @@ public class ShopService {
         User user=userRepo.findByEmail(principal.getName());
         Shop shop=shopRepo.save(new Shop(shopDTO.getShopName(), user));
         shopUserRepo.save(new UserShop(user,shop, Role.OWNER, LocalDateTime.now()));
-
         return new ShopDTO(shop.getShopName(),shop.getOwner().getFullName(),shop.getOwner().getEmail());
     }
     public ShopDTO getShop(Long shop){
