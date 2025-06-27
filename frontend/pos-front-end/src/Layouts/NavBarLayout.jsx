@@ -1,4 +1,5 @@
 import React from "react";
+import getArray from "../utils/list"
 import { Navigate, NavLink, Outlet } from "react-router-dom";
 import { useAuth, useUpdateAuth } from '../context/Authcontext';
 import HomePage from "../components/HomePage";
@@ -11,14 +12,7 @@ function NavBarLayout(params) {
     const auth=useAuth()
     const setAuth=useUpdateAuth()
 
-    const array=[
-    {link:''         ,text:'Home'       ,icon:Home     ,element:<HomePage/> },
-    {link:'addpeople',text:'Add People' ,icon:UserPlus2     ,element:<AddEmployees/> },
-    {link:'statistics',text:'Statistics' ,icon:BarChart3     ,element:<AddEmployees/> },
-    {link:'statistics',text:'Statistics' ,icon:User2     ,element:<AddEmployees/> },
-    {link:'settings',text:'Settings' ,icon:Settings    ,element:<SettingsPage/> },
-    {link:'statistics',text:'Statistics' ,icon:LogOut     ,element:<AddEmployees/> },
-    ]
+    const array=getArray()
 
     if (!auth.logedin || auth.shop === "") {
     return <Navigate to="/login" />;

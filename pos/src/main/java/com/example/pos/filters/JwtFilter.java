@@ -41,10 +41,6 @@ public class JwtFilter extends OncePerRequestFilter {
         String token = null;
         String username = null;
 
-
-
-        Arrays.stream(allowedEndPointConfig.getEndpoints()).forEach(System.out::println);
-        System.out.println(request.getRequestURI());
         boolean isAllowed = Arrays.stream(allowedEndPointConfig.getEndpoints())
                 .anyMatch(pattern -> matcher.match(pattern, request.getRequestURI()));
 

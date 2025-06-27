@@ -10,7 +10,9 @@ import Bills from './components/Bills';
 import NavBarLayout from './Layouts/NavBarLayout';
 import ChooseStore from './components/ChooseStore';
 import AddEmployees from './components/AddEmployees';
+import getArray from './utils/list';
 
+const list=getArray();
 function App() {
 
   return (
@@ -21,11 +23,14 @@ function App() {
         <Route path='/signUp' element={<SignUp/>}/>
          <Route path='/app/'element={<ProtectedLayout/>}> 
          <Route index element={<ChooseStore/>}/>
-          <Route  path='home' element={<NavBarLayout/>}>
-            <Route index element={<HomePage/>}/>
-            <Route path='bills' element={<Bills/>}/>
-            <Route path='addpeople' element={<AddEmployees/>}/>
-          </Route>
+          <Route path="home" element={<NavBarLayout />}>
+          <Route index element={<HomePage />} />
+          {getArray()
+            .filter(e => e.link !== '') // skip the index route already handled
+            .map((e, index) => (
+              <Route key={index} path={e.link} element={e.element} />
+            ))}
+        </Route>
         </Route> 
       </Routes>
     </>
