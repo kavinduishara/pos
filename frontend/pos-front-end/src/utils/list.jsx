@@ -4,6 +4,7 @@ import SettingsPage from "../components/SettingsPage";
 import { Home,Settings,BarChart3,UserPlus2,LogOut, User2, Boxes, } from "lucide-react";
 import Statistics from "../components/Statistics";
 import Profile from "../components/Profile";
+import StockManager from "../components/StockManager";
 
 
 const array = [

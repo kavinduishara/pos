@@ -13,7 +13,7 @@ export function useUpdateAuth(params) {
 
 
 export function AuthProvider({children}) {
-    const [value,setValue]=useState({logedin:false,user:{},role:"",shop:""})
+    const [value,setValue]=useState({logedin:false,user:{email:"",fullName:""},role:"",shop:""})
 
     function setAuthState(newState) {
         setValue(prev => ({ ...prev, ...newState }));

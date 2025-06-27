@@ -5,7 +5,6 @@ function HomePage(params) {
     const auth = useAuth();
     return(
         <>
-          <p>{auth.user}</p>
           <p>{auth.shop}</p>
           <p>{auth.role}</p>
         </>

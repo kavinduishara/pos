@@ -10,7 +10,7 @@ function AuthLayout() {
   useEffect(() => {
     // Simulate a network/auth check
     const timer = setTimeout(() => {
-      setAuth({ logedin: true, role: "fake", email: "fake" }); // simulate login
+      setAuth(); // simulate login
       setLoading(false);
     }, 1000);
 

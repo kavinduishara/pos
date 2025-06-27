@@ -66,8 +66,7 @@ public class UserService {
 
             response.addCookie(accessCookie);
             response.addCookie(refreshCookie);
-
-            return ResponseEntity.ok(Map.of("message", "Login successful"));
+            return ResponseEntity.ok(Map.of("message", "Login successful","fullName", (repo.findByEmail(user.getEmail()).getFullName())));
         }
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Invalid credentials"));

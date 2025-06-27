@@ -18,12 +18,12 @@ function Login() {
     try {
       const data = await api.post('/auth/login',{email:email,password:password})
 
-      console.log('Login Success:', data);
+      console.log('Login Success:', data.data);
       alert('Login successful!');
       setIsLoggedIn(true);
       navigate("../app/")
       
-      setAuth({logedin:true,user:email})
+      setAuth({logedin:true,user:{email:email,fullName:data.data.fullName}})
 
     } catch (err) {
       console.error('Login failed:', err.message);
