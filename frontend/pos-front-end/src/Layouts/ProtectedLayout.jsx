@@ -8,8 +8,6 @@ import VerticalNavigationBar from "../components/VerticalNavigationBar";
 function ProtectedLayout(params) {
     const auth=useAuth()
 
-    console.log("from protected "+auth);
-
     return(
         <>
             {auth.logedin?

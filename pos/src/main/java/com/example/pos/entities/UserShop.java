@@ -12,16 +12,14 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @Table(name = "user_shop")
+@IdClass(UserShopPk.class)
 public class UserShop {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Id
     @ManyToOne
     private Shop shop;
 
@@ -30,11 +28,5 @@ public class UserShop {
 
     private LocalDateTime joinedAt;
 
-    public UserShop(User user, Shop shop, Role role, LocalDateTime joinedAt) {
-        this.user = user;
-        this.shop = shop;
-        this.role = role;
-        this.joinedAt = joinedAt;
-    }
 }
 

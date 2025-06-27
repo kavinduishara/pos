@@ -13,11 +13,12 @@ export function useUpdateAuth(params) {
 
 
 export function AuthProvider({children}) {
-    const [value,setValue]=useState({logedin:false,user:""})
+    const [value,setValue]=useState({logedin:false,user:"",role:"",shop:""})
 
-    function setAuthState(isLoggedIn,user) {
-        setValue({logedin:isLoggedIn,user:user});
+    function setAuthState(newState) {
+        setValue(prev => ({ ...prev, ...newState }));
     }
+
 
     return(
         <AuthContext.Provider value={value}>

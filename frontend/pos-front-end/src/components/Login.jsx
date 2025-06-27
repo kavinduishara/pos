@@ -23,7 +23,7 @@ function Login() {
       setIsLoggedIn(true);
       navigate("../app/")
       
-      setAuth({logedin:true,user:"sfddf"})
+      setAuth({logedin:true,user:email})
 
     } catch (err) {
       console.error('Login failed:', err.message);

@@ -11,11 +11,10 @@ function NavBarLayout(params) {
     const array=[
     {link:''         ,text:'Home'    ,icon:Home     ,element:<HomePage/> },
     ]
-
     return(
         <>
             <VerticalNavigationBar list={array}/>
-            {auth.logedin?
+            {auth.logedin && auth.shop!=""?
             <main className="ml-20 p-6">
             <Outlet />
             </main>

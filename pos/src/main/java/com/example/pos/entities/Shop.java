@@ -29,8 +29,8 @@ public class Shop {
     private Set<UserShop> userAssignments = new HashSet<>();
 
 
-    @OneToOne
-    @JoinColumn(name = "owner_user_id", nullable = false, unique = true)
+    @ManyToOne
+    @JoinColumn(name = "owner_user_id", nullable = false)
     private User owner;
 
 

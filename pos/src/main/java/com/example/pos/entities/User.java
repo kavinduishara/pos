@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
@@ -37,6 +36,10 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     @JsonIgnore
     private Set<UserShop> shopAssignments = new HashSet<>();
+
+    @OneToMany(mappedBy = "owner")
+    @JsonIgnore
+    private Set<Shop> myShops=new HashSet<>();
 
 
     @Override
