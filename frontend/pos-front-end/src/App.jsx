@@ -9,24 +9,24 @@ import HomePage from './components/HomePage';
 import Bills from './components/Bills';
 import NavBarLayout from './Layouts/NavBarLayout';
 import ChooseStore from './components/ChooseStore';
-
+import AddEmployees from './components/AddEmployees';
 
 function App() {
 
   return (
     <>
       <Routes>
-        <Route path='/'element={<AuthLayout/>}>
-          <Route path='/login' element={<Login/>}/>
-          <Route path='/signUp' element={<SignUp/>}/>
-        </Route>
-        <Route path='/app/'element={<ProtectedLayout/>}>
-          <Route index element={<ChooseStore/>}/>
-          <Route path='home' element={<NavBarLayout/>}>
+        <Route path='/'element={<AuthLayout/>}/>
+        <Route path='/login/' element={<Login/>}/>
+        <Route path='/signUp' element={<SignUp/>}/>
+         <Route path='/app/'element={<ProtectedLayout/>}> 
+         <Route index element={<ChooseStore/>}/>
+          <Route  path='home' element={<NavBarLayout/>}>
             <Route index element={<HomePage/>}/>
             <Route path='bills' element={<Bills/>}/>
+            <Route path='addpeople' element={<AddEmployees/>}/>
           </Route>
-        </Route>
+        </Route> 
       </Routes>
     </>
   )

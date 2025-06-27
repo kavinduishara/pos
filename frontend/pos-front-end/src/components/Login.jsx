@@ -32,9 +32,9 @@ function Login() {
   }
 
   return (
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
     <div className="w-96 h-auto rounded-lg shadow-lg p-6 bg-white">
       <h1 className="text-center text-blue-600 text-2xl font-bold mb-6">LOGIN</h1>
-
       <div className="grid gap-4">
         <input
           placeholder="E-mail"
@@ -75,6 +75,7 @@ function Login() {
         </div>
 
       </div>
+    </div>
     </div>
   );
 }

@@ -26,6 +26,7 @@ function SignUp(params) {
 
     return(
         <>
+        <div className="flex items-center justify-center min-h-screen bg-gray-100">
             <div className="w-96 h-auto rounded-lg shadow-lg p-6 bg-white">
                 <h1 className="text-center text-blue-600 text-2xl font-bold mb-6">SIGN UP</h1>
 
@@ -80,6 +81,7 @@ function SignUp(params) {
                     </div>
 
                 </div>
+            </div>
             </div>
         </>
     );

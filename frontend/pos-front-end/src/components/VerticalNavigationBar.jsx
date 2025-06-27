@@ -7,8 +7,9 @@ function VerticalNavigationBar(params) {
     const Icon = item.icon
 
     return (
+      <>
       <div key={index} className="group relative flex items-center justify-center p-3 m-3">
-        <NavLink to={item.link} className="group">
+        <NavLink end to={item.link} className="group">
           {({ isActive }) => (
             <>
               <Icon
@@ -21,10 +22,11 @@ function VerticalNavigationBar(params) {
           )}
         </NavLink>
       </div>
+      </>
     )
   })
 
-  return <nav className="fixed top-0 left-0 h-full bg-sky-950">{listitems}</nav>
+  return <nav className="fixed top-0 left-0 h-full bg-sky-950 mt-20">{listitems}</nav>
 }
 
 export default VerticalNavigationBar

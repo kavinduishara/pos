@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useUpdateAuth } from '../context/Authcontext';
 import api from '../utils/api';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { Plus } from 'lucide-react';
 
 
 export function ListGenerater({ list }) {
@@ -38,7 +39,6 @@ function ChooseStore() {
     try {
       const response = await api.get('/shop/getmyshoplist');
       setShop(response.data);
-      console.log('My Shops:', response.data);
     } catch (error) {
       console.error('Failed to fetch shop list:', error);
       alert('Error fetching your shops.');

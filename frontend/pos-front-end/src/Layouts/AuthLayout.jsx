@@ -1,16 +1,25 @@
-import React from "react";
-import { useAuth } from '../context/Authcontext';
-import { Outlet,Navigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useAuth, useUpdateAuth } from '../context/Authcontext';
+import { Navigate } from "react-router-dom";
 
-function AuthLayout(params) {
-    const auth=useAuth()
+function AuthLayout() {
+  const auth = useAuth();
+  const setAuth = useUpdateAuth();
+  const [loading, setLoading] = useState(true); // simulate loading state
 
-    return(
-        <div className="flex items-center justify-center min-h-screen bg-gray-100">
-            {auth.logedin?<Navigate to={"app/"}/>:<Outlet/>}
-        </div>
-    )
-    
+  useEffect(() => {
+    // Simulate a network/auth check
+    const timer = setTimeout(() => {
+      setAuth({ logedin: true, role: "fake", email: "fake" }); // simulate login
+      setLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timer); // clean up
+  }, []);
+
+  if (loading) return <p>Loading...</p>; // or a spinner
+
+  return auth.logedin ? <Navigate to="/app" /> : <Navigate to="/login" />;
 }
 
 export default AuthLayout;
