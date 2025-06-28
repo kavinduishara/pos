@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useUpdateAuth } from '../context/Authcontext';
 import api from '../utils/api';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate, NavLink, useNavigate } from 'react-router-dom';
 import { Plus } from 'lucide-react';
 
 
@@ -11,6 +11,9 @@ export function ListGenerater({ list }) {
 
   return (
     <div className="grid gap-2 mb-4">
+      <div>
+        <NavLink to='new'>hii</NavLink>
+      </div>
       {list.map((e, index) => (
         <button
           key={index}

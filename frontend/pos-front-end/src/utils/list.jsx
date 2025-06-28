@@ -10,7 +10,7 @@ import { useAuth } from "../context/Authcontext";
 
 
 const array = [
-  { link: '', text: 'Home', icon: Home, element: HomePage,role:["all"]  },
+  { link: 'home', text: 'Home', icon: Home, element: HomePage,role:["all"]  },
   { link: 'stock', text: 'Stock', icon: Boxes, element: StockManager,role:["OWNER"]  },
   { link: 'addpeople', text: 'Employees', icon: UserPlus2, element: AddEmployees ,role:["OWNER"] },
   { link: 'statistics', text: 'Statistics', icon: BarChart3, element: Statistics ,role:["OWNER"] },

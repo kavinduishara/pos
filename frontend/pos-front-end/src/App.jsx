@@ -10,6 +10,7 @@ import NavBarLayout from './Layouts/NavBarLayout';
 import ChooseStore from './components/ChooseStore';
 import getArray from './utils/list';
 import { useAuth } from './context/Authcontext';
+import Billings from './components/Billings';
 
 const list=getArray();
 function App() {
@@ -21,20 +22,24 @@ function App() {
       <Routes>
         <Route path='/'element={<AuthLayout/>}/>
         <Route path='/login/' element={<Login/>}/>
-        <Route path='/signUp' element={<SignUp/>}/>
-         {/* <Route path='/app/'element={<ProtectedLayout/>}>  */}
-         
-          <Route path='/app/' element={<NavBarLayout />}>
-          {/* <Route index element={<ChooseStore/>}/> */}
-          <Route path='home' element={<HomePage />} />
+        <Route path='/signUp' element={<SignUp/>}/>         
+        <Route path='/app/' element={<NavBarLayout />}>
           {getArray()
-          .filter(e => e.link !== '')
           .filter(e=>(e.role.includes(auth.role)||e.role.includes("all")))
-          .map((e, index) => (
+          .map((e, index) => {
+            if (e.text==="Change store") {
+              return(
+            <Route key={index} path={e.link} element={<e.element />} >
+              <Route key={index} path='new' element={<Billings/>} />
+            </Route>
+          )
+            }
+            return(
             <Route key={index} path={e.link} element={<e.element />} />
-          ))}
-
-        {/* </Route> */}
+          )
+          }
+            
+          )}
         </Route> 
       </Routes>
     </>

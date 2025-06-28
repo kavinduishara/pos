@@ -5,19 +5,18 @@ import { Navigate } from "react-router-dom";
 function AuthLayout() {
   const auth = useAuth();
   const setAuth = useUpdateAuth();
-  const [loading, setLoading] = useState(true); // simulate loading state
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate a network/auth check
     const timer = setTimeout(() => {
-      setAuth(); // simulate login
+      setAuth(); 
       setLoading(false);
     }, 1000);
 
-    return () => clearTimeout(timer); // clean up
+    return () => clearTimeout(timer);
   }, []);
 
-  if (loading) return <p>Loading...</p>; // or a spinner
+  if (loading) return <p>Loading...</p>;
 
   return auth.logedin ? <Navigate to="/app" /> : <Navigate to="/login" />;
 }

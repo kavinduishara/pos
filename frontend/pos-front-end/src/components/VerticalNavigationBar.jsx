@@ -12,7 +12,7 @@ function VerticalNavigationBar(params) {
 
     return (
       <div key={index} className="group relative flex items-center justify-center p-3 m-3">
-        <NavLink end to={item.link} className="group">
+        <NavLink to={item.link} className="group">
           {({ isActive }) => (
             <>
               <Icon

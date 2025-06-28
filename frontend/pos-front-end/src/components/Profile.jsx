@@ -1,8 +1,10 @@
-const Profile=(params) =>{
+import React, { useState } from 'react';
+const Profile=(paams) =>{
     return(
         <>
-        profile
+            <h1>settings</h1>
         </>
     )
 }
+
 export default Profile;
