@@ -1,13 +1,16 @@
 import React from "react"
 import { NavLink } from "react-router-dom"
+import { useAuth } from "../context/Authcontext"
 
 
 function VerticalNavigationBar(params) {
-  const listitems = params.list.map((item, index) => {
+  const auth=useAuth()
+  const listitems = params.list
+    .filter(e=>(e.role.includes(auth.role)||e.role.includes("all")))
+    .map((item, index) => {
     const Icon = item.icon
 
     return (
-      <>
       <div key={index} className="group relative flex items-center justify-center p-3 m-3">
         <NavLink end to={item.link} className="group">
           {({ isActive }) => (
@@ -22,7 +25,6 @@ function VerticalNavigationBar(params) {
           )}
         </NavLink>
       </div>
-      </>
     )
   })
 

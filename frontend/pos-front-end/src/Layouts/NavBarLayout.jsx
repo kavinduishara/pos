@@ -2,11 +2,7 @@ import React from "react";
 import getArray from "../utils/list"
 import { Navigate, NavLink, Outlet } from "react-router-dom";
 import { useAuth, useUpdateAuth } from '../context/Authcontext';
-import HomePage from "../components/HomePage";
 import VerticalNavigationBar from "../components/VerticalNavigationBar";
-import AddEmployees from "../components/AddEmployees";
-import SettingsPage from "../components/SettingsPage";
-import { Home,PersonStanding,Settings,BarChart3,UserPlus2,LogOut, User2, HomeIcon, LucideHome, House, HousePlugIcon, CaseUpper } from "lucide-react";
 
 function NavBarLayout(params) {
     const auth=useAuth()
@@ -14,7 +10,7 @@ function NavBarLayout(params) {
 
     const array=getArray()
 
-    if (!auth.logedin || auth.shop === "") {
+    if (!auth.logedin) {
     return <Navigate to="/login" />;
     }
 

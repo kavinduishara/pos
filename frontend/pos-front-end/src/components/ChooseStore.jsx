@@ -17,7 +17,7 @@ export function ListGenerater({ list }) {
           onClick={() =>{
 
               setAuth({role:e.role,shop:e.shop.shopName})
-              navigate("home")
+              navigate("../home")
             }
           }
           className="rounded-sm bg-sky-500 hover:bg-sky-600 text-white font-semibold py-2"
@@ -38,6 +38,7 @@ function ChooseStore() {
   const fetchShops = async () => {
     try {
       const response = await api.get('/shop/getmyshoplist');
+      console.log(response.data)
       setShop(response.data);
     } catch (error) {
       console.error('Failed to fetch shop list:', error);

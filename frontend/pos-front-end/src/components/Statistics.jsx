@@ -1,7 +1,7 @@
-function Statistics(params) {
+const Statistics=(paams) =>{
     return(
         <>
-        stat
+            <h1>Statistics</h1>
         </>
     )
 }

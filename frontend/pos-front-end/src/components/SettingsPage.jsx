@@ -1,4 +1,4 @@
-function SettingsPage(params) {
+const SettingsPage=(paams) =>{
     return(
         <>
             <h1>settings</h1>

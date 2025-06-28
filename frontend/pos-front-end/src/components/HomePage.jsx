@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/Authcontext';
 
-function HomePage(params) {
+const HomePage=(params)=> {
     const auth = useAuth();
     return(
         <>

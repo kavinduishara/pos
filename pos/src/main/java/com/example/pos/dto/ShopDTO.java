@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ShopDTO {
+    private Long shopId;
     private String shopName;
     private String ownerName;
     private String email;

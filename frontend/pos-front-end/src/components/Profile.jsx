@@ -1,9 +1,8 @@
-function Profile(params) {
+const Profile=(params) =>{
     return(
         <>
         profile
         </>
     )
 }
-
 export default Profile;

@@ -1,7 +1,7 @@
-function StockManager(params) {
+const StockManager=(paams) =>{
     return(
         <>
-        stat
+            <h1>StockManager</h1>
         </>
     )
 }
