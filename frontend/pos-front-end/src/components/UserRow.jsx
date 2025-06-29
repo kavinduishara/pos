@@ -31,8 +31,8 @@ function UserRow({ user, onDelete,onRole }) {
               <input
                 type="radio"
                 name={`role-${user.email}`}
-                value="admin"
-                checked={selectedRole === "admin"}
+                value="ADMIN"
+                checked={selectedRole === "ADMIN"}
                 onChange={(e) => setSelectedRole(e.target.value)}
                 className="accent-blue-500"
               />
@@ -43,8 +43,8 @@ function UserRow({ user, onDelete,onRole }) {
               <input
                 type="radio"
                 name={`role-${user.email}`}
-                value="cashier"
-                checked={selectedRole === "cashier"}
+                value="CACHE"
+                checked={selectedRole === "CACHE"}
                 onChange={(e) => setSelectedRole(e.target.value)}
                 className="accent-blue-500"
               />

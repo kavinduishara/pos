@@ -9,7 +9,7 @@ export function ListGenerater({ list }) {
   const navigate =useNavigate()
 
   return (
-    <div className="grid gap-2 mb-4">
+    <div className="grid">
       {list.map((e, index) => (
         <button
           key={index}
@@ -22,7 +22,7 @@ export function ListGenerater({ list }) {
                 console.log(response.data)
             }
           }
-          className="rounded-sm bg-sky-500 hover:bg-sky-600 text-white font-semibold py-2"
+          className="border-b bg-gray-100 hover:bg-gray-300 text-sky-800 font-semibold py-2"
         >
           {e.shopName}
         </button>

@@ -27,13 +27,23 @@ const AdminEmployees = () => {
     setusers(prev => prev.filter(user => user.email !== email));
     console.log("Deleted user:", email);
   };
-const handleRole = (email, role) => {
-  if (role === 'cashier') {
-    setusers(prev =>
-      prev.filter(user => user.email !== email)
-    );
-  }
-};
+  const handleRole = async (email, role) => {
+      if (role === 'CACHE') {
+        const response = await api.put("/admin/setrole", {
+          role:"CACHE",
+          shop:{
+            shopId: auth.shop.shopId,
+          },
+          user:{
+            email:email
+          }
+        });
+        console.log(response)
+      setusers(prev =>
+        prev.filter(user => user.email !== email)
+      );
+      }
+    };
 
 
   return <ListGenerater list={users} onDelete={handleDeleteUser} onRole={handleRole} />;

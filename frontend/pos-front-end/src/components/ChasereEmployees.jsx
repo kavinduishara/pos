@@ -27,14 +27,23 @@ const ChasereEmployees = () => {
     setShops(prev => prev.filter(user => user.email !== email));
     console.log("Deleted user:", email);
   };
-const handleRole = (email, role) => {
-  if (role === 'admin') {
+  const handleRole = async (email, role) => {
+    if (role === 'ADMIN') {
+      const response = await api.put("/admin/setrole", {
+        role:"ADMIN",
+        shop:{
+          shopId: auth.shop.shopId,
+        },
+        user:{
+          email:email
+        }
+      });
+      console.log(response)
     setShops(prev =>
       prev.filter(user => user.email !== email)
     );
-  }
-};
-
+    }
+  };
 
   return <ListGenerater list={shops} onDelete={handleDeleteUser} onRole={handleRole} />;
 };

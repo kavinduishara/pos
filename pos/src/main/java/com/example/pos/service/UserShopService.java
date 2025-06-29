@@ -30,7 +30,8 @@ public class UserShopService {
                 shopRepo.findById(userShop.getShop().getShopId()).get()
         )).get();
         userShop1.setRole(userShop.getRole());
-        return shopUserRepo.save(userShop1);
+        shopUserRepo.save(userShop1);
+        return userShop1;
     }
 
     public UserShop makeUserShop(ShopDTO shopDTO, Principal principal) {

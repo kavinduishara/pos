@@ -9,9 +9,11 @@ const NewEmployees = () => {
 
   const fetchShops = async () => {
     try {
-      const response = await api.post("/admin/getadminusers", {
+      console.log("shopId:", auth.shop?.shopId);
+      const response = await api.post("/admin/getnewusers", {
         shopId: auth.shop.shopId,
       });
+      console.log(shops)
       setShops(response.data);
     } catch (error) {
       console.error("Failed to fetch shop list:", error);
@@ -23,17 +25,30 @@ const NewEmployees = () => {
     fetchShops();
   }, []);
 
-  const handleDeleteUser = (email) => {
+  const handleDeleteUser = async (email) => {
+    // const response = await api.post("/admin/setrole", {
+    //     shopId: auth.shop.shopId,
+    //   });
     setShops(prev => prev.filter(user => user.email !== email));
-    console.log("Deleted user:", email);
-  };
-const handleRole = (email,role) => {
+      console.log("Deleted user:", email);
+    };
+    const handleRole = async (email,role) => {
+      const response = await api.put("/admin/setrole", {
+        role:role.toUpperCase(),
+        shop:{
+          shopId: auth.shop.shopId,
+        },
+        user:{
+          email:email
+        }
+      });
+      console.log(response)
     setShops(prev =>
       prev.filter(user => user.email !== email)
     );
-};
+    };
 
 
-  return <ListGenerater list={shops} onDelete={handleDeleteUser} onRole={handleRole} />;
+    return <ListGenerater list={shops} onDelete={handleDeleteUser} onRole={handleRole} />;
 };
 export default NewEmployees;
