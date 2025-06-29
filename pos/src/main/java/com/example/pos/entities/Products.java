@@ -28,7 +28,19 @@ public class Products {
     @Column(nullable = false)
     private float quantity;
 
+    @Column(nullable = false)
+    private Shop shop;
+
     @OneToMany(mappedBy = "product")
     @JsonIgnore
     private List<BillProduct> billProduct;
+
+//    public Products(Long productId, String productName, float unitPrice, String unit, float quantity, Shop shop) {
+//        this.productId = productId;
+//        this.productName = productName;
+//        this.unitPrice = unitPrice;
+//        this.unit = unit;
+//        this.quantity = quantity;
+//        this.shop = shop;
+//    }
 }
