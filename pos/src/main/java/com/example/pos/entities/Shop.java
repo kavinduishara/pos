@@ -43,8 +43,4 @@ public class Shop {
         shopName=name;
         owner=user;
     }
-
-    public Shop(Long shopId) {
-        this.shopId = shopId;
-    }
 }
