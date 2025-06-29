@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -32,6 +33,10 @@ public class Shop {
     @ManyToOne
     @JoinColumn(name = "owner_user_id", nullable = false)
     private User owner;
+
+    @OneToMany(mappedBy = "issuedIn")
+    @JsonIgnore
+    private List<Bill> bills;
 
 
     public Shop(String name, User user) {
