@@ -53,8 +53,6 @@ public class JwtFilter extends OncePerRequestFilter {
             for (var cookie : request.getCookies()) {
                 if ("access_token".equals(cookie.getName())) {
                     token = cookie.getValue();
-                    System.out.println("jwt filter");
-                    System.out.println(token);
                     break;
                 }
             }
@@ -63,7 +61,6 @@ public class JwtFilter extends OncePerRequestFilter {
         if (token != null) {
             try {
                 username = jwtService.extractUserName(token);
-                System.out.println(username);
 
                 if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                     UserDetails userDetails = myUserDetailsService.loadUserByUsername(username);

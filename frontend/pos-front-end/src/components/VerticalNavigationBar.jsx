@@ -18,12 +18,13 @@ function VerticalNavigationBar(params) {
               <Icon
                 className={`duration-300 ease-in ${isActive ? "text-sky-500" : "text-white"} group-hover:text-sky-700`}
               />
-              <span className="absolute left-full ml-2 text-white text-sm bg-sky-800 px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition duration-300">
-                {item.text}
-              </span>
+              
             </>
           )}
         </NavLink>
+        <span className="absolute left-full ml-2 text-white text-sm bg-sky-800 px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition duration-300">
+                {item.text}
+              </span>
       </div>
     )
   })

@@ -18,7 +18,7 @@ function NavBarLayout(params) {
         <>
         <div className="flex items-center justify-between fixed top-0 left-0 right-0 w-full h-20 px-10 bg-sky-950 text-white z-50 shadow-md">
 
-            <h1 className="text-3xl font-bold font-mono tracking-wide">{auth.shop.toUpperCase()}</h1>
+            <h1 className="text-3xl font-bold font-mono tracking-wide">{auth.shop.shopName.toUpperCase()}</h1>
 
             <div className="text-right">
                 <p className="text-lg font-semibold">{auth.role}</p>

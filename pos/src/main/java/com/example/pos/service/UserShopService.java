@@ -1,6 +1,7 @@
 package com.example.pos.service;
 
 import com.example.pos.dto.ShopDTO;
+import com.example.pos.dto.UserDTO;
 import com.example.pos.entities.*;
 import com.example.pos.repository.ShopRepo;
 import com.example.pos.repository.ShopUserRepo;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class UserShopService {
@@ -40,5 +42,13 @@ public class UserShopService {
                         LocalDateTime.now()
                         ));
         return shopUserRepo.save(userShop);
+    }
+
+    public List<UserDTO> getRoleAndUser(ShopDTO shopDTO, Role role) {
+        List<UserShop> userShop=shopUserRepo.findAllByShop(shopRepo.findById(shopDTO.getShopId()).get());
+        return userShop.stream().filter(userShop1 -> userShop1.getRole()==role).map(userShop1 -> {
+            User user=userShop1.getUser();
+            return new UserDTO(user.getFullName(), user.getEmail());
+        }).toList();
     }
 }

@@ -11,6 +11,11 @@ import ChooseStore from './components/ChooseStore';
 import getArray from './utils/list';
 import { useAuth } from './context/Authcontext';
 import Billings from './components/Billings';
+import { CreateNewStore } from './components/CreateNewStore';
+import ApplyForStore from './components/ApplyForStore';
+import AdminEmployees from './components/AdminEmployees';
+import ChasereEmployees from './components/ChasereEmployees';
+import NewEmployees from './components/NewEmployees';
 
 const list=getArray();
 function App() {
@@ -27,12 +32,23 @@ function App() {
           {getArray()
           .filter(e=>(e.role.includes(auth.role)||e.role.includes("all")))
           .map((e, index) => {
-            if (e.text==="Change store") {
+            if (e.text==="StoreManager") {
               return(
-            <Route key={index} path={e.link} element={<e.element />} >
-              <Route key={index} path='new' element={<Billings/>} />
-            </Route>
-          )
+                <Route key={index} path={e.link} element={<e.element />} >
+                  <Route index key={index} element={<ChooseStore/>} />
+                  <Route key={index} path='apply' element={<ApplyForStore/>} />
+                  <Route key={index} path='new' element={<CreateNewStore/>} />
+                </Route>
+              )
+            }
+            if (e.text==="Employees") {
+              return(
+                <Route key={index} path={e.link} element={<e.element />} >
+                  <Route key={index} path='admin' element={<AdminEmployees/>} />
+                  <Route key={index} path='cacher' element={<ChasereEmployees/>} />
+                  <Route key={index} index element={<NewEmployees/>} />
+                </Route>
+              )
             }
             return(
             <Route key={index} path={e.link} element={<e.element />} />

@@ -3,10 +3,7 @@ package com.example.pos.service;
 import com.example.pos.dto.ShopDTO;
 import com.example.pos.dto.UserDTO;
 import com.example.pos.dto.UserShopDTO;
-import com.example.pos.entities.Role;
-import com.example.pos.entities.Shop;
-import com.example.pos.entities.User;
-import com.example.pos.entities.UserShop;
+import com.example.pos.entities.*;
 import com.example.pos.repository.ShopRepo;
 import com.example.pos.repository.ShopUserRepo;
 import com.example.pos.repository.UserRepo;
@@ -50,7 +47,19 @@ public class ShopService {
         User owner=shop2.getOwner();
         return new ShopDTO(shop2.getShopId(),shop2.getShopName(),owner.getFullName(),owner.getEmail());
     }
-
+    public List<ShopDTO> getShopList(Principal principal){
+        List<Shop> shops=shopRepo.findAll();
+        List<ShopDTO> shopDTOS=new ArrayList<>();
+        shops.forEach(shop2 -> {
+            boolean isEmpty=shopUserRepo.findById(new UserShopPk(userRepo.findByEmail(principal.getName()),shop2)).isEmpty();
+            if (isEmpty){
+                shopDTOS.add(
+                new ShopDTO(shop2.getShopId(),shop2.getShopName(),shop2.getOwner().getFullName(),shop2.getOwner().getEmail())
+                );
+            }
+        });
+        return shopDTOS;
+    }
     public List<UserShopDTO> getMyShops(Principal principal){
         List<UserShop> list=  shopUserRepo.findAllByUser(userRepo.findByEmail(principal.getName()));
         List<UserShopDTO> list1= new ArrayList<>();

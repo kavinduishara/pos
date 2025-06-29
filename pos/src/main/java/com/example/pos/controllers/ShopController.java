@@ -41,7 +41,11 @@ public class ShopController {
     public List<UserShopDTO> getmyshoplist(Principal principal){
         return shopService.getMyShops(principal);
     }
-    @PostMapping("/aplly")
+    @GetMapping("/getall")
+    public List<ShopDTO> getlist(Principal principal){
+        return shopService.getShopList(principal);
+    }
+    @PostMapping("/apply")
     public UserShopDTO addMeToShop(@RequestBody ShopDTO shopDTO, Principal principal){
 
         UserShop userShop= userShopService.makeUserShop(shopDTO,principal);

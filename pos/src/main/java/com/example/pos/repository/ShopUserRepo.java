@@ -1,5 +1,6 @@
 package com.example.pos.repository;
 
+import com.example.pos.entities.Shop;
 import com.example.pos.entities.User;
 import com.example.pos.entities.UserShop;
 import com.example.pos.entities.UserShopPk;
@@ -9,4 +10,5 @@ import java.util.List;
 
 public interface ShopUserRepo extends JpaRepository<UserShop, UserShopPk> {
     List<UserShop> findAllByUser(User user);
+    List<UserShop> findAllByShop(Shop shop);
 }
