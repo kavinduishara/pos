@@ -14,15 +14,15 @@ public class ProductService {
     ProductsRepo productsRepo;
 
     public void addProduct(ProductDTO products) {
-//        Shop shop=new Shop(products.getShopId());
-//        Products products1=new Products(
-//                products.getProductId(),
-//                products.getProductName(),
-//                products.getUnitPrice(),
-//                products.getUnit(),
-//                products.getQuantity(),
-//                shop
-//                );
-//        productsRepo.save(products1);
+        Shop shop=new Shop(products.getShopId());
+        Products products1=new Products(
+                products.getProductId(),
+                products.getProductName(),
+                products.getUnitPrice(),
+                products.getUnit(),
+                products.getQuantity(),
+                shop
+                );
+        productsRepo.save(products1);
     }
 }

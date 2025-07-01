@@ -8,7 +8,6 @@ import com.example.pos.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +27,7 @@ public class StoreController {
         return new Products();
     }
     @PostMapping("/addproduct")
-    public Products addProduct(@RequestBody ProductDTO products){
+    public ProductDTO addProduct(@RequestBody ProductDTO products){
         //productService.addProduct(products);
         return new ProductDTO();
     }

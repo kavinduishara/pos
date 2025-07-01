@@ -13,9 +13,10 @@ import lombok.Setter;
 @Getter
 public class ProductDTO {
     private Long productId ;
-//    private String productName;
-//    private float unitPrice;
-//    private String unit;
-//    private float quantity;
-//    private Long shopId;
+
+    private String productName;
+    private float unitPrice;
+    private String unit;
+    private float quantity;
+    private Long shopId;
 }
