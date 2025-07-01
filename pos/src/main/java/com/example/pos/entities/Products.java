@@ -28,6 +28,9 @@ public class Products {
     @Column(nullable = false)
     private float quantity;
 
+    @ManyToOne(optional = false)
+    private Shop shop;
+
     @OneToMany(mappedBy = "product")
     @JsonIgnore
     private List<BillProduct> billProduct;

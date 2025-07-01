@@ -38,6 +38,10 @@ public class Shop {
     @JsonIgnore
     private List<Bill> bills;
 
+    @OneToMany(mappedBy = "shop")
+    @JsonIgnore
+    private List<Products> products;
+
 
     public Shop(String name, User user) {
         shopName=name;
