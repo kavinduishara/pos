@@ -12,6 +12,7 @@ import com.example.pos.service.UserService;
 import com.example.pos.service.UserShopService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -63,9 +64,15 @@ public class ShopController {
         return new UserShopDTO(userDTO,shopDTO1,userShop.getRole(),userShop.getJoinedAt());
     }
     @PostMapping("/enter")
-    public ResponseEntity<Map<String, String>> enterToShop(@RequestBody UserShop userShop, HttpServletResponse response) {
+    public ResponseEntity<Map<String, String>> enterToShop(@RequestBody ShopDTO shop, HttpServletResponse response,Principal principal) {
 
-        return userService.enterToShop(userShop.getUser(),response,userShop.getShop().getShopId());
+        System.out.println(principal.getName());
+
+        if (!userShopService.isUserShopPresent(shop.getShopId(), principal.getName())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "there is no role for you in this store"));
+        }
+
+        return userService.enterToShop(principal.getName(), response,shop.getShopId());
     }
 
 }

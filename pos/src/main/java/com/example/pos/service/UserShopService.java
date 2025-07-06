@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserShopService {
@@ -25,13 +26,33 @@ public class UserShopService {
     UserRepo userRepo;
 
     public UserShop setUserShop(UserShop userShop){
-        UserShop userShop1=shopUserRepo.findById(new UserShopPk(
-                userRepo.findByEmail(userShop.getUser().getUsername()),
-                shopRepo.findById(userShop.getShop().getShopId()).get()
-        )).get();
+        UserShop userShop1=getUserShop(userShop);
         userShop1.setRole(userShop.getRole());
         shopUserRepo.save(userShop1);
         return userShop1;
+    }
+    public UserShop getUserShop(UserShop userShop){
+        return shopUserRepo.findById(new UserShopPk(
+                userRepo.findByEmail(userShop.getUser().getUsername()),
+                shopRepo.findById(userShop.getShop().getShopId()).orElseThrow()
+        )).orElse(null);
+    }
+    public boolean isUserShopPresent(Long shopId,String userName){
+        User user=userRepo.findByEmail(userName);
+        Optional<Shop> shop=shopRepo.findById(shopId);
+        if(shop.isEmpty()){
+            return false;
+        }
+        System.out.println(shopUserRepo.findById(new UserShopPk(
+                user,
+                shop.get()
+
+        )).isPresent());
+        return shopUserRepo.findById(new UserShopPk(
+                user,
+                shop.get()
+
+        )).isPresent();
     }
 
     public UserShop makeUserShop(ShopDTO shopDTO, Principal principal) {
