@@ -61,7 +61,8 @@ public class UserController {
             }
 
             String username = jwtService.extractUserName(refreshToken);
-            String newAccessToken = jwtService.generateAccessToken(username);
+            Long shopId= (Long) jwtService.getShopId(refreshToken);
+            String newAccessToken = jwtService.generateAccessToken(username,shopId);
 
             // Set new access token in cookie
             Cookie newAccessCookie = new Cookie("access_token", newAccessToken);

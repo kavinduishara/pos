@@ -22,11 +22,11 @@ public class Products {
     @Column(nullable = false)
     private String productName;
     @Column(nullable = false)
-    private float unitPrice;
+    private Float unitPrice;
     @Column(nullable = false)
     private String unit;
     @Column(nullable = false)
-    private float quantity;
+    private Float quantity;
 
     @ManyToOne(optional = false)
     private Shop shop;
@@ -35,12 +35,19 @@ public class Products {
     @JsonIgnore
     private List<BillProduct> billProduct;
 
-    public Products(Long productId, String productName, float unitPrice, String unit, float quantity, Shop shop) {
-        this.productId = productId;
+    public Products(String productName, float unitPrice, String unit, float quantity, Shop shop) {
+
         this.productName = productName;
         this.unitPrice = unitPrice;
         this.unit = unit;
         this.quantity = quantity;
         this.shop = shop;
+    }
+
+    public Products(String productName, float unitPrice, String unit, float quantity) {
+        this.productName = productName;
+        this.unitPrice = unitPrice;
+        this.unit = unit;
+        this.quantity = quantity;
     }
 }

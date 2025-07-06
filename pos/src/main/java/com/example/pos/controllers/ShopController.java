@@ -8,12 +8,16 @@ import com.example.pos.entities.User;
 import com.example.pos.entities.UserShop;
 import com.example.pos.service.MyUserDetailsService;
 import com.example.pos.service.ShopService;
+import com.example.pos.service.UserService;
 import com.example.pos.service.UserShopService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin
 @RestController
@@ -28,6 +32,9 @@ public class ShopController {
 
     @Autowired
     UserShopService userShopService;
+
+    @Autowired
+    UserService userService;
 
     @PostMapping("/createShop")
     public ShopDTO createShop(@RequestBody ShopDTO shop, Principal principal){
@@ -55,4 +62,10 @@ public class ShopController {
         UserDTO userDTO=new UserDTO(user.getFullName(),user.getEmail());
         return new UserShopDTO(userDTO,shopDTO1,userShop.getRole(),userShop.getJoinedAt());
     }
+    @PostMapping("/enter")
+    public ResponseEntity<Map<String, String>> enterToShop(@RequestBody UserShop userShop, HttpServletResponse response) {
+
+        return userService.enterToShop(userShop.getUser(),response,userShop.getShop().getShopId());
+    }
+
 }

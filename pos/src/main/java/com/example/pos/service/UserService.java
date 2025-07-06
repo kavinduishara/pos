@@ -40,15 +40,13 @@ public class UserService {
 
         return new UserDTO(user1.getFullName(),user1.getEmail());
     }
-
-
-    public ResponseEntity<Map<String, String>> verify(User user, HttpServletResponse response) {
+    private ResponseEntity<Map<String, String>> generateTokens(User user, HttpServletResponse response,Long shopId) {
         Authentication authentication = manager.authenticate(
                 new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword())); // use actual password
 
         if (authentication.isAuthenticated()) {
-            String accessToken = jwtService.generateAccessToken(user.getUsername());
-            String refreshToken = jwtService.generateRefreshToken(user.getUsername());
+            String accessToken = jwtService.generateAccessToken(user.getUsername(), shopId);
+            String refreshToken = jwtService.generateRefreshToken(user.getUsername(),shopId);
 
             // Set access_token cookie
             Cookie accessCookie = new Cookie("access_token", accessToken);
@@ -72,8 +70,12 @@ public class UserService {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", "Invalid credentials"));
     }
 
-
-
+    public ResponseEntity<Map<String, String>> verify(User user, HttpServletResponse response) {
+        return generateTokens(user,response,0L);
+    }
+    public ResponseEntity<Map<String, String>> enterToShop(User user, HttpServletResponse response,Long shopId) {
+        return generateTokens(user,response,shopId);
+    }
     public List<User> getAll() {
         return repo.findAll();
     }

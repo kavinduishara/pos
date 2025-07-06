@@ -64,7 +64,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
                 if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                     UserDetails userDetails = myUserDetailsService.loadUserByUsername(username);
-                    System.out.println(userDetails.getUsername());
+                    System.out.println(jwtService.getShopId(token));
 
                     if (!request.getRequestURI().equals("/auth/refresh") && !jwtService.isAccessToken(token)) {
                         System.out.println("Refresh tokens are not allowed on this endpoint");
@@ -84,7 +84,6 @@ public class JwtFilter extends OncePerRequestFilter {
 
                         UsernamePasswordAuthenticationToken authenticationToken =
                                 new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                        System.out.println(authenticationToken.isAuthenticated());
                         authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                     }

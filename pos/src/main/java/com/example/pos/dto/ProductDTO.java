@@ -1,5 +1,6 @@
 package com.example.pos.dto;
 
+import com.example.pos.entities.Products;
 import com.example.pos.entities.Shop;
 import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
@@ -15,8 +16,26 @@ public class ProductDTO {
     private Long productId ;
 
     private String productName;
-    private float unitPrice;
+    private Float unitPrice;
     private String unit;
-    private float quantity;
+    private Float quantity;
     private Long shopId;
+
+    public ProductDTO(String productName, float unitPrice, String unit, float quantity, Long shopId) {
+        this.productName = productName;
+        this.unitPrice = unitPrice;
+        this.unit = unit;
+        this.quantity = quantity;
+        this.shopId = shopId;
+    }
+    public static ProductDTO productToDTO(Products products){
+        return new ProductDTO(
+                products.getProductId(),
+                products.getProductName(),
+                products.getUnitPrice(),
+                products.getUnit(),
+                products.getQuantity(),
+                products.getShop().getShopId()
+        );
+    }
 }

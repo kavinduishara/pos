@@ -13,16 +13,33 @@ public class ProductService {
     @Autowired
     ProductsRepo productsRepo;
 
-    public void addProduct(ProductDTO products) {
+    public Products addProduct(ProductDTO products) {
         Shop shop=new Shop(products.getShopId());
         Products products1=new Products(
-                products.getProductId(),
                 products.getProductName(),
                 products.getUnitPrice(),
                 products.getUnit(),
                 products.getQuantity(),
                 shop
                 );
-        productsRepo.save(products1);
+        return productsRepo.save(products1);
+    }
+
+    public ProductDTO changeProduct(ProductDTO products) {
+        Products products1=productsRepo.findById(products.getProductId()).get();
+        System.out.println(products.getQuantity());
+        if (products.getProductName() != null) {
+            products1.setProductName(products.getProductName());
+        }
+        if (products.getUnit() != null) {
+            products1.setUnit(products.getUnit());
+        }
+        if (products.getQuantity() != null) {
+            products1.setQuantity(products.getQuantity());
+        }
+        if (products.getUnitPrice() != null) {
+            products1.setUnitPrice(products.getUnitPrice());
+        }
+        return ProductDTO.productToDTO(productsRepo.save(products1));
     }
 }

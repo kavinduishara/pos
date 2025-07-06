@@ -1,5 +1,6 @@
 package com.example.pos.entities;
 
+import com.example.pos.dto.UserDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -40,6 +41,7 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "owner")
     @JsonIgnore
     private Set<Shop> myShops=new HashSet<>();
+
 
 
     @Override

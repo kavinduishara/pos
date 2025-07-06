@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("admin/store")
 public class StoreController {
@@ -23,12 +24,11 @@ public class StoreController {
         return new ArrayList<>();
     }
     @PutMapping("/changeProduct")
-    public Products setProduct(@RequestBody Products products){
-        return new Products();
+    public ProductDTO setProduct(@RequestBody ProductDTO products){
+        return productService.changeProduct(products);
     }
     @PostMapping("/addproduct")
-    public ProductDTO addProduct(@RequestBody ProductDTO products){
-        //productService.addProduct(products);
-        return new ProductDTO();
+    public Products addProduct(@RequestBody ProductDTO products){
+        return productService.addProduct(products);
     }
 }

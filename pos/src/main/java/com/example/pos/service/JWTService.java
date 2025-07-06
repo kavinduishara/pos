@@ -32,23 +32,25 @@ public class JWTService {
     }
 
     // Method to generate JWT token
-    public String generateRefreshToken(String username) {
+    public String generateRefreshToken(String username,Long shopId) {
         Map<String, Object> claims = new HashMap<>();
         return Jwts.builder()
                 .setClaims(claims) // Set claims directly
                 .setSubject(username)
                 .claim("token_type","refresh")
+                .claim("shop_id",shopId)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 3600000*7*24)) // 1 week expiration
                 .signWith(getKey()) // Signing with the key
                 .compact();
     }
-    public String generateAccessToken(String username) {
+    public String generateAccessToken(String username,Long shopId) {
         Map<String, Object> claims = new HashMap<>();
         return Jwts.builder()
                 .setClaims(claims) // Set claims directly
                 .setSubject(username)
                 .claim("token_type","access")
+                .claim("shop_id",shopId)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 3600000)) // 1 hour expiration
                 .signWith(getKey()) // Signing with the key
@@ -89,6 +91,9 @@ public class JWTService {
 
     public boolean isAccessToken(String token){
         return "access".equals(extractAllClaims(token).get("token_type"));
+    }
+    public Object getShopId(String token){
+        return extractAllClaims(token).get("shop_id");
     }
 
     // Check if token is expired
