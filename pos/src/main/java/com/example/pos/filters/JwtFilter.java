@@ -49,14 +49,7 @@ public class JwtFilter extends OncePerRequestFilter {
             return;
         }
 
-        if (request.getCookies() != null) {
-            for (var cookie : request.getCookies()) {
-                if ("access_token".equals(cookie.getName())) {
-                    token = cookie.getValue();
-                    break;
-                }
-            }
-        }
+        token=jwtService.getToken(request);
 
         if (token != null) {
             try {

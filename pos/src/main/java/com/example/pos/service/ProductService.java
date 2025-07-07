@@ -5,7 +5,10 @@ import com.example.pos.entities.Products;
 import com.example.pos.entities.Shop;
 import com.example.pos.repository.ProductsRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ProductService {
@@ -13,7 +16,7 @@ public class ProductService {
     @Autowired
     ProductsRepo productsRepo;
 
-    public Products addProduct(ProductDTO products) {
+    public ResponseEntity<?> addProduct(ProductDTO products) {
         Shop shop=new Shop(products.getShopId());
         Products products1=new Products(
                 products.getProductName(),
@@ -22,10 +25,10 @@ public class ProductService {
                 products.getQuantity(),
                 shop
                 );
-        return productsRepo.save(products1);
+        return ResponseEntity.ok(productsRepo.save(products1));
     }
 
-    public ProductDTO changeProduct(ProductDTO products) {
+    public ResponseEntity<?> changeProduct(ProductDTO products) {
         Products products1=productsRepo.findById(products.getProductId()).get();
         System.out.println(products.getQuantity());
         if (products.getProductName() != null) {
@@ -40,6 +43,10 @@ public class ProductService {
         if (products.getUnitPrice() != null) {
             products1.setUnitPrice(products.getUnitPrice());
         }
-        return ProductDTO.productToDTO(productsRepo.save(products1));
+
+        return ResponseEntity.ok(ProductDTO.productToDTO(productsRepo.save(products1)));
+    }
+    public List<ProductDTO> getProductLike(String prod,Long shop){
+        return productsRepo.findByProductNameStartsWith(prod,new Shop(shop)).stream().map(ProductDTO::productToDTO).toList();
     }
 }

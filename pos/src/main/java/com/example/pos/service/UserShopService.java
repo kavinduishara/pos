@@ -7,6 +7,7 @@ import com.example.pos.repository.ShopRepo;
 import com.example.pos.repository.ShopUserRepo;
 import com.example.pos.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
@@ -66,11 +67,12 @@ public class UserShopService {
         return shopUserRepo.save(userShop);
     }
 
-    public List<UserDTO> getRoleAndUser(ShopDTO shopDTO, Role role) {
-        List<UserShop> userShop=shopUserRepo.findAllByShop(shopRepo.findById(shopDTO.getShopId()).get());
-        return userShop.stream().filter(userShop1 -> userShop1.getRole()==role).map(userShop1 -> {
+    public ResponseEntity<?> getRoleAndUser(Long shopId, Role role) {
+        List<UserShop> userShop=shopUserRepo.findAllByShop(new Shop(shopId));
+
+        return ResponseEntity.ok(userShop.stream().filter(userShop1 -> userShop1.getRole()==role).map(userShop1 -> {
             User user=userShop1.getUser();
             return new UserDTO(user.getFullName(), user.getEmail());
-        }).toList();
+        }).toList());
     }
 }

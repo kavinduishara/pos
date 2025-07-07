@@ -1,8 +1,17 @@
 package com.example.pos.controllers;
 
 import com.example.pos.dto.BillDTO;
+import com.example.pos.dto.ProductDTO;
 import com.example.pos.dto.ShopDTO;
 import com.example.pos.entities.Products;
+import com.example.pos.service.JWTService;
+import com.example.pos.service.ProductService;
+import io.jsonwebtoken.Claims;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -13,6 +22,11 @@ import java.util.List;
 @RequestMapping("/cacher")
 public class CacherController {
 
+    @Autowired
+    ProductService productService;
+
+    @Autowired
+    JWTService jwtService;
     @PostMapping("/makeBill")
     public BillDTO makeBill(@RequestBody BillDTO billDTO, Principal principal){
         return billDTO;
@@ -28,5 +42,12 @@ public class CacherController {
     @GetMapping("/shopproducts")
     public Products getAllProducts(@RequestBody ShopDTO shopDTO){
         return new Products();
+    }
+    @GetMapping("/product/{prod}")
+    public List<ProductDTO> getProductLike(@PathVariable String prod, HttpServletRequest request){
+        String token=jwtService.getToken(request);
+        Long shopId=jwtService.getShopId(token);
+        return productService.getProductLike(prod,shopId
+        );
     }
 }

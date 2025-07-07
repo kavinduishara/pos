@@ -80,8 +80,8 @@ public class BillService {
         return ResponseEntity.ok(billDTO);
     }
 
-    public ResponseEntity<?> getBillsBetween(DateDTO dateDTO) {
-        List<Bill> bills=billRepo.findBillsBetweenDates(dateDTO.getFrom(),dateDTO.getTo());
+    public ResponseEntity<?> getBillsBetween(DateDTO dateDTO,Long shopId) {
+        List<Bill> bills=billRepo.findBillsBetweenDates(dateDTO.getFrom(),dateDTO.getTo(),new Shop(shopId));
         return ResponseEntity.ok(bills.stream().map(BillDTO::billToDTO).collect(Collectors.toSet()));
     }
 }

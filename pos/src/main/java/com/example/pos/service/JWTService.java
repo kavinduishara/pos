@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -67,6 +68,18 @@ public class JWTService {
     public String extractUserName(String token) {
         return extractClaim(token, Claims::getSubject);
     }
+    public String getToken(HttpServletRequest request){
+        String token=null;
+        if (request.getCookies() != null) {
+            for (var cookie : request.getCookies()) {
+                if ("access_token".equals(cookie.getName())) {
+                    token = cookie.getValue();
+                    break;
+                }
+            }
+        }
+        return token;
+    }
 
     // Extract specific claim (e.g., expiration, username)
     private <T> T extractClaim(String token, Function<Claims, T> claimResolver) {
@@ -92,8 +105,12 @@ public class JWTService {
     public boolean isAccessToken(String token){
         return "access".equals(extractAllClaims(token).get("token_type"));
     }
-    public Object getShopId(String token){
-        return extractAllClaims(token).get("shop_id");
+    public Long getShopId(String token){
+        Object value = extractAllClaims(token).get("shop_id");
+        if (value instanceof Number) {
+            return ((Number) value).longValue(); // Safe cast
+        }
+        return null; // or throw exception if shop_id is required
     }
 
     // Check if token is expired
