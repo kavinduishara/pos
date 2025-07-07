@@ -1,9 +1,9 @@
 import { NavLink, Outlet } from "react-router-dom";
 
 export const Links=({list})=>{
-    const updatedlist=list.map(e=>{
+    const updatedlist=list.map((e,index)=>{
         return(
-            <NavLink end to={e.link}
+            <NavLink key={index} end to={e.link}
                 className={({ isActive }) =>
                     isActive
                     ? "text-sky-700 text-md font-bold px-4 underline decoration-4 transition duration-300"

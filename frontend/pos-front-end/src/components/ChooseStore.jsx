@@ -14,8 +14,9 @@ export function ListGenerater({ list }) {
       {list.map((e, index) => (
         <button
           key={index}
-          onClick={() => {
+          onClick={async() => {
             setAuth({ role: e.role, shop: e.shopDTO });
+            const response = await api.post('/shop/enter', { shopId:e.shopDTO.shopId });
             navigate("../home");
           }}
           className="border-b bg-gray-100 hover:bg-gray-300 text-sky-800 font-semibold py-2"

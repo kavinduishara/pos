@@ -28,7 +28,7 @@ function NavBarLayout(params) {
 
         <VerticalNavigationBar list={array} />
         
-        <main className="ml-20 p-6 mt-20">
+        <main className="ml-15 pl-6 mt-22 h-full bg-black-100">
             <Outlet />
         </main>
         </>
