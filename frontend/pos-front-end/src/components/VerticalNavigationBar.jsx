@@ -22,7 +22,7 @@ function VerticalNavigationBar(params) {
             </>
           )}
         </NavLink>
-        <span className="absolute left-full ml-2 text-white text-sm bg-sky-800 px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition duration-300">
+        <span className="absolute left-full ml-2 text-white text-sm bg-sky-800 px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition duration-300 pointer-events-none">
                 {item.text}
               </span>
       </div>
