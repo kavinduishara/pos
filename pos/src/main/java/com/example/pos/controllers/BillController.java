@@ -34,6 +34,9 @@ public class BillController {
 
     @PostMapping("/makebill")
     public ResponseEntity<?> makeBill(@RequestBody BillDTO billDTO, HttpServletRequest request, Principal principal){
+        System.out.println(billDTO.getPayment());
+        billDTO.getBillProducts().forEach(System.out::println);
+        System.out.println();
         billDTO.setShop(new ShopDTO(getShopFromToken(request)));
         billDTO.setUser(new UserDTO("",principal.getName()));
         return billService.makeBill(billDTO);

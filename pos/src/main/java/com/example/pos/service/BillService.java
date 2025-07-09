@@ -36,7 +36,7 @@ public class BillService {
         Shop shop=shopRepo.findById(billDTO.getShop().getShopId()).get();
 
         final Float[] total = {0f};
-        Bill bill=billRepo.save(new Bill(user,shop, LocalDateTime.now(), total[0]));
+        Bill bill=billRepo.save(new Bill(user,shop, LocalDateTime.now(), total[0],billDTO.getPayment()));
         List<BillProduct> billProductList=new ArrayList<>();
         final String[] error = {""};
         billDTO.getBillProducts().forEach(billProduct -> {

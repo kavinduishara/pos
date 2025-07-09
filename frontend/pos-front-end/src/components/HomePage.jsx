@@ -48,6 +48,7 @@ const fetchProduct=async (search,setList)=>{
       console.log(data.data)
       setList(data.data)
 }
+
 const HomePage=()=> {
   const auth = useAuth();
   const [select,setSelect]=useState({productId:0,productName:"_",quantity:"_",unit:"_",unitPrice:0,shopId:auth.shop.shopId})
@@ -57,6 +58,12 @@ const HomePage=()=> {
   const [productList,setProductList]=useState([])
   const [chache,setChache]=useState(0)
 
+  const pay=async()=>{
+  const data =await api.post('/billing/makebill',{
+    billProducts:productList,payment:chache-productList.reduce((acc, item) => acc + item.priceWhenBought * item.issuedQuantity, 0).toFixed(2)
+
+  })
+}
   useEffect(()=>{
     if(search.length==3){
       fetchProduct(search,setList)
@@ -173,7 +180,20 @@ const HomePage=()=> {
               </tbody>
             </table>
             <div className="mt-auto pt-4 border-t border-gray-300 text-right flex justify-between">
-              <button className='p-2 px-9 border-3 rounded-xl bg-red-700 text-white'>pay</button>
+              <button
+                className={`p-2 px-9 border-3 rounded-xl text-white ${
+                  productList.length === 0
+                    ? 'bg-gray-400 cursor-not-allowed'
+                    : 'bg-red-700 hover:bg-red-800'
+                }`}
+                disabled={productList.length === 0}
+
+                onClick={()=>{
+                  pay()
+                  setProductList([])
+                  setChache(0)
+                }}
+              >pay</button>
               <div>
                 <label className='mr-3 text-lg font-semibold text-sky-800'>Paid:</label>
                 <input

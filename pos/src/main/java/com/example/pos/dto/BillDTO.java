@@ -22,6 +22,7 @@ public class BillDTO {
     private LocalDateTime issuedAt;
     private Set<BillProductDTO> billProducts;
     private Float total;
+    private Float payment;
 
 
     public static BillDTO billToDTO(Bill bill){
@@ -33,7 +34,8 @@ public class BillDTO {
                 UserDTO.userToDTO(bill.getIssuedBy()),
                 bill.getIssuedAt(),
                 billProductDTOS,
-                bill.getTotal()
+                bill.getTotal(),
+                bill.getPayment()
         );
     }
 //    public static Bill dTOtoBill(BillDTO bill){
