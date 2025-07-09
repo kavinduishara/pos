@@ -31,10 +31,10 @@ const AdminEmployees = () => {
       if (role === 'CACHE') {
         const response = await api.put("/admin/setrole", {
           role:"CACHE",
-          shop:{
+          shopDTO:{
             shopId: auth.shop.shopId,
           },
-          user:{
+          userDTO:{
             email:email
           }
         });

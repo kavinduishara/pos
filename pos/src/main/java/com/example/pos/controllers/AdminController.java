@@ -1,6 +1,7 @@
 package com.example.pos.controllers;
 
 import com.example.pos.dto.UserDTO;
+import com.example.pos.dto.UserShopDTO;
 import com.example.pos.entities.Role;
 import com.example.pos.entities.UserShop;
 import com.example.pos.repository.ShopUserRepo;
@@ -57,10 +58,12 @@ public class AdminController {
         return userShopService.getRoleAndUser(getShopFromToken(request), Role.CACHE);
     }
     @PutMapping("/setrole")
-    public ResponseEntity<?> setUserRole(@RequestBody  UserShop userShop, HttpServletRequest request, HttpServletResponse response){
-        if(!Objects.equals(userShop.getShop().getShopId(), getShopFromToken(request))){
+    public ResponseEntity<?> setUserRole(@RequestBody UserShopDTO userShop, HttpServletRequest request){
+        System.out.println(userShop);
+        if(!Objects.equals(userShop.getShopDTO().getShopId(), getShopFromToken(request))){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("this is not your shop");
         }
-        return ResponseEntity.ok(userShop);
+        System.out.println(userShop);
+        return userShopService.setRole(userShop);
     }
 }

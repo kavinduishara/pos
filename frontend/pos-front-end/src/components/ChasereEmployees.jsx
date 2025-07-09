@@ -31,10 +31,10 @@ const ChasereEmployees = () => {
     if (role === 'ADMIN') {
       const response = await api.put("/admin/setrole", {
         role:"ADMIN",
-        shop:{
+        shopDTO:{
           shopId: auth.shop.shopId,
         },
-        user:{
+        userDTO:{
           email:email
         }
       });

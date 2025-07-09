@@ -14,6 +14,10 @@ public class ShopDTO {
     private String ownerName;
     private String email;
 
+    public ShopDTO(Long shopId) {
+        this.shopId = shopId;
+    }
+
     public static ShopDTO shopToDTO(Shop shop){
         return new ShopDTO(shop.getShopId(),shop.getShopName(),shop.getOwner().getFullName(),shop.getOwner().getEmail());
     }

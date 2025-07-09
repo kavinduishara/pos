@@ -2,6 +2,7 @@ package com.example.pos.service;
 
 import com.example.pos.dto.ShopDTO;
 import com.example.pos.dto.UserDTO;
+import com.example.pos.dto.UserShopDTO;
 import com.example.pos.entities.*;
 import com.example.pos.repository.ShopRepo;
 import com.example.pos.repository.ShopUserRepo;
@@ -32,12 +33,23 @@ public class UserShopService {
         shopUserRepo.save(userShop1);
         return userShop1;
     }
+    public ResponseEntity<?> setRole(UserShopDTO userShop){
+        UserShop userShop1= shopUserRepo.findById(new UserShopPk(
+                userRepo.findByEmail(userShop.getUserDTO().getEmail()),
+                shopRepo.findById(userShop.getShopDTO().getShopId()).orElseThrow()
+        )).orElse(null);
+        assert userShop1 != null;
+        userShop1.setRole(userShop.getRole());
+        return ResponseEntity.ok(shopUserRepo.save(userShop1));
+    }
+
     public UserShop getUserShop(UserShop userShop){
         return shopUserRepo.findById(new UserShopPk(
                 userRepo.findByEmail(userShop.getUser().getUsername()),
                 shopRepo.findById(userShop.getShop().getShopId()).orElseThrow()
         )).orElse(null);
     }
+
     public boolean isUserShopPresent(Long shopId,String userName){
         User user=userRepo.findByEmail(userName);
         Optional<Shop> shop=shopRepo.findById(shopId);

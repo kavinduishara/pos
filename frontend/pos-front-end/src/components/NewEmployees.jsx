@@ -35,10 +35,10 @@ const NewEmployees = () => {
     const handleRole = async (email,role) => {
       const response = await api.put("/admin/setrole", {
         role:role.toUpperCase(),
-        shop:{
+        shopDTO:{
           shopId: auth.shop.shopId,
         },
-        user:{
+        userDTO:{
           email:email
         }
       });

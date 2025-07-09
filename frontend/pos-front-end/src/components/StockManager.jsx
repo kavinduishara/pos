@@ -3,7 +3,7 @@ import { useAuth } from '../context/Authcontext';
 import api from '../utils/api';
 import { CirclePlus, Notebook, Plus, Save, Trash, X } from 'lucide-react';
 
-export function ListGenerater({ list ,onselect}) {
+export function ListGenerater({ list ,onselect,search}) {
   return (
     <div className="grid ">
       {list.filter(e => e.productName.toLowerCase().includes(search.toLowerCase()))
@@ -39,6 +39,9 @@ const StockManager=(paams) =>{
       fetchProduct(search,setList)
       console.log(search)
     }
+    if(search.length==0){
+      setList([])
+    }
   },[search])
     const auth = useAuth();
     const [select,setSelect]=useState({productId:0,productName:"",quantity:"",unit:"",unitPrice:0,shopId:auth.shop.shopId})
@@ -58,7 +61,7 @@ const StockManager=(paams) =>{
           className="border border-blue-500 rounded-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <div className='mt-8 overflow-y-auto max-h-100'>
-            <ListGenerater list={list} onselect={onselect}/>
+            <ListGenerater list={list} onselect={onselect} search={search}/>
           </div>
         </div>
         <div className="rounded-lg bg-white p-4 flex flex-col shadow-xl">
@@ -75,6 +78,7 @@ const StockManager=(paams) =>{
                 onClick={async() =>
                     {
                         const data = await api.put('admin/store/changeProduct',select)
+                        fetchProduct(search,setList)
                         console.log(data.data)
                     }
                 }
@@ -88,6 +92,7 @@ const StockManager=(paams) =>{
                 onClick={async() =>
                     {
                         const data = await api.post('admin/store/addproduct',select)
+                        fetchProduct(search,setList)
                         console.log(data.data)
                     }
                 }

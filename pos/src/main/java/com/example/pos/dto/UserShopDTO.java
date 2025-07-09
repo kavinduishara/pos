@@ -1,6 +1,7 @@
 package com.example.pos.dto;
 
 import com.example.pos.entities.Role;
+import com.example.pos.entities.UserShop;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,4 +17,6 @@ public class UserShopDTO {
     private ShopDTO shopDTO;
     private Role role;
     private LocalDateTime joinedAt;
+
+
 }

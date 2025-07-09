@@ -2,6 +2,8 @@ package com.example.pos.controllers;
 
 import com.example.pos.dto.BillDTO;
 import com.example.pos.dto.DateDTO;
+import com.example.pos.dto.ShopDTO;
+import com.example.pos.dto.UserDTO;
 import com.example.pos.service.BillService;
 import com.example.pos.service.JWTService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.Objects;
 
 @CrossOrigin
@@ -30,10 +33,9 @@ public class BillController {
     }
 
     @PostMapping("/makebill")
-    public ResponseEntity<?> makeBill(@RequestBody BillDTO billDTO,HttpServletRequest request){
-        if(!Objects.equals(billDTO.getShop().getShopId(), getShopFromToken(request))){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("this is not your shop");
-        }
+    public ResponseEntity<?> makeBill(@RequestBody BillDTO billDTO, HttpServletRequest request, Principal principal){
+        billDTO.setShop(new ShopDTO(getShopFromToken(request)));
+        billDTO.setUser(new UserDTO("",principal.getName()));
         return billService.makeBill(billDTO);
     }
 
