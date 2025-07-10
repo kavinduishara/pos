@@ -10,35 +10,60 @@ import {
   Tooltip,
   ArcElement,
 } from 'chart.js';
-import { useState } from 'react';
-import { Expand, Minimize, Minimize2 } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Expand, Minimize2 } from 'lucide-react';
+import api from '../utils/api';
 
-ChartJS.register(LineElement, BarElement, CategoryScale, LinearScale, PointElement, Legend, Tooltip, ArcElement);
+ChartJS.register(
+  LineElement,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  Legend,
+  Tooltip,
+  ArcElement
+);
 
 const Statistics = () => {
-  const [focused, setFocused] = useState(null); // 'line' | 'doughnut' | 'bar' | null
-
-  const lineChartData = {
-    labels: ['Jun', 'Jul', 'Aug'],
+  const [focused, setFocused] = useState(null);
+  const [salesChartData, setSalesChartData] = useState({
+    labels: [],
     datasets: [
       {
         label: 'Sales',
-        data: [5, 6, 7],
+        data: [],
         borderColor: '#3b82f6',
         backgroundColor: 'rgba(59, 130, 246, 0.2)',
         tension: 0.4,
         fill: true,
       },
+    ],
+  });
+  const [stockChartData, setStockChartData] = useState([{
+    labels: [],
+    datasets: [
       {
-        label: 'Returns',
-        data: [3, 2, 1],
-        borderColor: '#ef4444',
-        backgroundColor: 'rgba(239, 68, 68, 0.2)',
+        label: 'Sales',
+        data: [],
+        borderColor: '#3b82f6',
+        backgroundColor: 'rgba(59, 130, 246, 0.2)',
         tension: 0.4,
         fill: true,
       },
     ],
-  };
+  }]);
+
+  const [prodData, setProdData] = useState({
+    labels: [],
+    datasets: [
+      {
+        label: 'Product-wise Sales',
+        data: [],
+        backgroundColor: [],
+      },
+    ],
+  });
 
   const doughnutData = {
     labels: ['Electronics', 'Groceries', 'Clothing'],
@@ -61,36 +86,100 @@ const Statistics = () => {
     },
   };
 
-  const barChartData = {
-    labels: ['Electronics', 'Groceries', 'Clothing'],
-    datasets: [
-      {
-        label: 'Monthly Sales',
-        data: [12000, 9500, 7800],
-        backgroundColor: ['#3b82f6', '#10b981', '#f59e0b'],
-        borderRadius: 6,
-      },
-    ],
+  const fetchBills = async () => {
+    const now = new Date();
+    now.setHours(now.getHours() + 10);
+    const oneMonthAgo = new Date();
+    oneMonthAgo.setMonth(now.getMonth() - 1);
+
+    const payload = {
+      from: oneMonthAgo.toISOString(),
+      to: now.toISOString(),
+    };
+
+    try {
+      const res = await api.post('/billing/getbilsbitween', payload);
+      const bills = res.data;
+      console.log(bills)
+      const labels = [];
+      const data = [];
+
+      const prodMap = new Map(); // Aggregate by product name
+
+      bills.forEach((bill) => {
+        const date = new Date(bill.issuedAt).toLocaleDateString('en-GB');
+        labels.push(date);
+        data.push(bill.total);
+
+        bill.billProducts.forEach((bp) => {
+          const name = bp.productName;
+          const qty = bp.issuedQuantity * bp.priceWhenBought || 0;
+          prodMap.set(name, (prodMap.get(name) || 0) + qty);
+        });
+      });
+
+      const prodLabels = Array.from(prodMap.keys());
+      const prodValues = Array.from(prodMap.values());
+
+      setSalesChartData({
+        labels,
+        datasets: [
+          {
+            label: 'Sales Over Time',
+            data,
+            borderColor: '#3b82f6',
+            backgroundColor: 'rgba(59, 130, 246, 0.2)',
+            tension: 0.4,
+            fill: true,
+          },
+        ],
+      });
+
+      setProdData({
+        labels: prodLabels,
+        datasets: [
+          {
+            label: 'Product-wise Sales',
+            data: prodValues,
+            backgroundColor: prodLabels.map(
+              (_, i) => ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'][i % 5]
+            ),
+            borderRadius: 6,
+          },
+        ],
+      });
+    } catch (err) {
+      console.error('Failed to fetch bills:', err);
+    }
   };
+
+  useEffect(() => {
+    fetchBills();
+  }, []);
 
   return (
     <div className="relative">
-      {/* Focused View */}
-      {focused && (
-        <div className="bg-white p-6 shadow-2xl">
-          <button
-            className="mb-4 px-4 py-2 text-red-500 rounded float-right"
-            onClick={() => setFocused(null)}
-          >
-            <Minimize2/>
-          </button>
-          <div className="w-full ">
-            {focused === 'line' && <Line data={lineChartData} />}
-            {focused === 'doughnut' && <Doughnut data={doughnutData} options={doughnutOptions} />}
-            {focused === 'bar' && <Bar data={barChartData} />}
-          </div>
+      {/* Focused Chart View */}
+      <div
+        className={`z-50 bg-white p-6 shadow-2xl fixed top-10 left-10 right-10 bottom-10 rounded-lg overflow-auto
+          transform transition-all duration-500 ease-in-out
+          ${focused ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-95 pointer-events-none'}
+        `}
+      >
+        <button
+          className="mb-4 px-4 py-2 text-red-500 rounded float-right"
+          onClick={() => setFocused(null)}
+        >
+          <Minimize2 />
+        </button>
+
+        <div className="w-full">
+          {focused === 'line' && <Line data={salesChartData} />}
+          {focused === 'productvary' && <Line data={prodData} />}
+          {focused === 'doughnut' && <Doughnut data={doughnutData} options={doughnutOptions} />}
+          {focused === 'bar' && <Bar data={prodData} />}
         </div>
-      )}
+      </div>
 
       {/* Grid View */}
       {!focused && (
@@ -100,10 +189,21 @@ const Statistics = () => {
               className="text-sm text-blue-500 float-right"
               onClick={() => setFocused('line')}
             >
-              <Expand/>
+              <Expand />
             </button>
-            <h3 className="text-lg font-semibold text-sky-800 mb-2">Monthly Sales Overview</h3>
-            <Line data={lineChartData} />
+            <h3 className="text-lg font-semibold text-sky-800 mb-2">Sales Overview</h3>
+            <Line data={salesChartData} />
+          </div>
+
+          <div className="rounded-lg shadow-lg bg-white p-4">
+            <button
+              className="text-sm text-blue-500 float-right"
+              onClick={() => setFocused('productvary')}
+            >
+              <Expand />
+            </button>
+            <h3 className="text-lg font-semibold text-sky-800 mb-2">Sales by Product</h3>
+            <Line data={prodData} />
           </div>
 
           <div className="rounded-lg shadow-lg bg-white p-6">
@@ -111,7 +211,7 @@ const Statistics = () => {
               className="text-sm text-blue-500 float-right"
               onClick={() => setFocused('doughnut')}
             >
-              <Expand/>
+              <Expand />
             </button>
             <h3 className="text-md font-semibold text-sky-800 mb-2">Category Distribution</h3>
             <Doughnut data={doughnutData} options={doughnutOptions} />
@@ -122,13 +222,13 @@ const Statistics = () => {
               className="text-sm text-blue-500 float-right"
               onClick={() => setFocused('bar')}
             >
-              <Expand/>
+              <Expand />
             </button>
-            <h3 className="text-md font-semibold text-sky-800 mb-2">Sales per Category</h3>
-            <Bar data={barChartData} />
+            <h3 className="text-md font-semibold text-sky-800 mb-2">Sales per Product</h3>
+            <Bar data={prodData} />
           </div>
 
-          {[...Array(3)].map((_, i) => (
+          {[...Array(2)].map((_, i) => (
             <div
               key={i}
               className="rounded-lg shadow-lg bg-white p-6 flex items-center justify-center text-gray-400"

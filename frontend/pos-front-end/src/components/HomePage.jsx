@@ -60,7 +60,7 @@ const HomePage=()=> {
 
   const pay=async()=>{
   const data =await api.post('/billing/makebill',{
-    billProducts:productList,payment:chache-productList.reduce((acc, item) => acc + item.priceWhenBought * item.issuedQuantity, 0).toFixed(2)
+    billProducts:productList,payment:Number(chache).toFixed(2)
 
   })
 }

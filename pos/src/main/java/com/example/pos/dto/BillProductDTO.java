@@ -1,9 +1,6 @@
 package com.example.pos.dto;
 
-import com.example.pos.entities.Bill;
 import com.example.pos.entities.BillProduct;
-import com.example.pos.entities.Products;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +16,7 @@ public class BillProductDTO {
 
     private Float issuedQuantity;
     private Float priceWhenBought;
+    private Float existingQuantity;
 
     private Float price;
     private Long productId;
@@ -34,6 +32,7 @@ public class BillProductDTO {
         dto.setIssuedQuantity(billProduct.getIssuedQuantity());
         dto.setPriceWhenBought(billProduct.getPriceWhenBought());
         dto.setPrice(billProduct.getPrice());
+        dto.setExistingQuantity(billProduct.getExistingQuantity());
 
 
         if (billProduct.getProduct() != null) {

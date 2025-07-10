@@ -19,6 +19,10 @@ public class BillProduct {
 
     @Column(nullable = false)
     private Float issuedQuantity;
+
+    @Column(nullable = false)
+    private Float existingQuantity;
+
     @Column(nullable = false)
     private Float priceWhenBought;
 
@@ -32,9 +36,10 @@ public class BillProduct {
     @JoinColumn(nullable = false)
     private Bill bill;
 
-    public BillProduct(Float issuedQuantity, Float priceWhenBought, Float price, Products product, Bill bill) {
+    public BillProduct(Float issuedQuantity, Float priceWhenBought, Float existingQuantity,Float price, Products product, Bill bill) {
         this.issuedQuantity = issuedQuantity;
         this.priceWhenBought = priceWhenBought;
+        this.existingQuantity = existingQuantity;
         this.price = price;
         this.product = product;
         this.bill = bill;

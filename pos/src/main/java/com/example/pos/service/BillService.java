@@ -54,7 +54,7 @@ public class BillService {
                 billProduct.setPrice(price);
                 total[0] =price+ total[0];
                 billProduct.setBillId(bill.getBillId());
-                billProductList.add(new BillProduct(billProduct.getIssuedQuantity(), product.getUnitPrice(),price,product,bill ));
+                billProductList.add(new BillProduct(billProduct.getIssuedQuantity(),product.getUnitPrice(),product.getQuantity()-billProduct.getIssuedQuantity(),price,product,bill ));
             }else {
                 error[0]=error[0]+" "+"only"+product.getQuantity()+product.getUnit()+" "+product.getProductName()+"left\n";
             }
@@ -82,6 +82,10 @@ public class BillService {
 
     public ResponseEntity<?> getBillsBetween(DateDTO dateDTO,Long shopId) {
         List<Bill> bills=billRepo.findBillsBetweenDates(dateDTO.getFrom(),dateDTO.getTo(),new Shop(shopId));
+        System.out.println(shopId);
+        System.out.println(dateDTO.getFrom());
+        System.out.println(dateDTO.getTo());
+        System.out.println(bills);
         return ResponseEntity.ok(bills.stream().map(BillDTO::billToDTO).collect(Collectors.toSet()));
     }
 }
