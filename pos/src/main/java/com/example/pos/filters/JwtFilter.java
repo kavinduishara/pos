@@ -1,6 +1,7 @@
 package com.example.pos.filters;
 
 import com.example.pos.config.AllowedEndPointConfig;
+import com.example.pos.config.RoleBasedAccessConfig;
 import com.example.pos.service.JWTService;
 import com.example.pos.service.MyUserDetailsService;
 import io.jsonwebtoken.JwtException;
@@ -32,6 +33,9 @@ public class JwtFilter extends OncePerRequestFilter {
     @Autowired
     AllowedEndPointConfig allowedEndPointConfig;
 
+    @Autowired
+    RoleBasedAccessConfig roleBasedAccessConfig;
+
     private final AntPathMatcher matcher = new AntPathMatcher();
 
     @Override
@@ -55,11 +59,12 @@ public class JwtFilter extends OncePerRequestFilter {
             try {
                 username = jwtService.extractUserName(token);
 
+
                 if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                     UserDetails userDetails = myUserDetailsService.loadUserByUsername(username);
-                    System.out.println(jwtService.getShopId(token));
+                    String s=request.getRequestURI();
 
-                    if (!request.getRequestURI().equals("/auth/refresh") && !jwtService.isAccessToken(token)) {
+                    if (!s.equals("/auth/refresh") && !jwtService.isAccessToken(token)) {
                         System.out.println("Refresh tokens are not allowed on this endpoint");
                         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Refresh tokens are not allowed on this endpoint");
                         return;
@@ -80,6 +85,17 @@ public class JwtFilter extends OncePerRequestFilter {
                         authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                     }
+//                    if (!roleBasedAccessConfig.haveAccess(jwtService.getShopId(token), username, s)) {
+//                        String role = roleBasedAccessConfig.getRole(jwtService.getShopId(token), username).name();
+//
+//                        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+//                        response.setContentType("application/json");
+//                        response.getWriter().write(
+//                                String.format("{\"error\": \"Access denied for role '%s' in this shop.\"}", role)
+//                        );
+//                        return;
+//                    }
+
                 }
 
             } catch (JwtException e) {

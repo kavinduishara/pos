@@ -41,7 +41,11 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "owner")
     @JsonIgnore
     private Set<Shop> myShops=new HashSet<>();
+    private String username;
 
+    public User(String username) {
+        this.email = username;
+    }
 
 
     @Override

@@ -59,11 +59,10 @@ public class AdminController {
     }
     @PutMapping("/setrole")
     public ResponseEntity<?> setUserRole(@RequestBody UserShopDTO userShop, HttpServletRequest request){
-        System.out.println(userShop);
         if(!Objects.equals(userShop.getShopDTO().getShopId(), getShopFromToken(request))){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("this is not your shop");
         }
-        System.out.println(userShop);
+
         return userShopService.setRole(userShop);
     }
 }
