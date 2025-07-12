@@ -9,10 +9,10 @@ import StoreManager from "../components/StoreManager";
 
 
 const array = [
-  { link: 'home',         text: 'Home', icon: Home, element: HomePage,role:["all"]  },
-  { link: 'stock',        text: 'Stock', icon: Boxes, element: StockManager,role:["OWNER"]  },
-  { link: 'employees',    text: 'Employees', icon: UserPlus2, element: Employees ,role:["OWNER"] },
-  { link: 'statistics',   text: 'Statistics', icon: BarChart3, element: Statistics ,role:["OWNER"] },
+  { link: 'home',         text: 'Home', icon: Home, element: HomePage,role:["OWNER","ADMIN","CACHE"]  },
+  { link: 'stock',        text: 'Stock', icon: Boxes, element: StockManager,role:["OWNER","ADMIN"]  },
+  { link: 'employees',    text: 'Employees', icon: UserPlus2, element: Employees ,role:["OWNER","ADMIN"] },
+  { link: 'statistics',   text: 'Statistics', icon: BarChart3, element: Statistics ,role:["OWNER","ADMIN"] },
   { link: 'profile',      text: 'Profile', icon: User2, element: Profile ,role:["all"] },
   { link: 'settings',     text: 'Settings', icon: Settings, element: SettingsPage,role:["all"]  },
   { link: 'StoreManager', text: 'StoreManager', icon:Replace, element: StoreManager,role:["all"] },

@@ -5,11 +5,12 @@ import { useAuth } from "../context/Authcontext"
 
 function VerticalNavigationBar(params) {
   const auth=useAuth()
+  console.log(auth.role)
   const listitems = params.list
     .filter(e=>(e.role.includes(auth.role)||e.role.includes("all")))
     .map((item, index) => {
     const Icon = item.icon
-
+    console.log(item.role)
     return (
       <div key={index} className="group relative flex items-center justify-center p-3 m-3">
         <NavLink to={item.link} className="group">

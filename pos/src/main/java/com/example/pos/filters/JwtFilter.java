@@ -85,16 +85,16 @@ public class JwtFilter extends OncePerRequestFilter {
                         authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                     }
-//                    if (!roleBasedAccessConfig.haveAccess(jwtService.getShopId(token), username, s)) {
-//                        String role = roleBasedAccessConfig.getRole(jwtService.getShopId(token), username).name();
-//
-//                        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-//                        response.setContentType("application/json");
-//                        response.getWriter().write(
-//                                String.format("{\"error\": \"Access denied for role '%s' in this shop.\"}", role)
-//                        );
-//                        return;
-//                    }
+                    if (!roleBasedAccessConfig.haveAccess(jwtService.getShopId(token), username, s)) {
+                        String role = roleBasedAccessConfig.getRole(jwtService.getShopId(token), username).name();
+
+                        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                        response.setContentType("application/json");
+                        response.getWriter().write(
+                                String.format("{\"error\": \"Access denied for role '%s' in this shop.\"}", role)
+                        );
+                        return;
+                    }
 
                 }
 
