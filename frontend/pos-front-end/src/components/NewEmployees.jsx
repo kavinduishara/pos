@@ -5,50 +5,71 @@ import { useAuth } from "../context/Authcontext";
 
 const NewEmployees = () => {
   const auth = useAuth();
-  const [shops, setShops] = useState([]);
+  const [users, setUsers] = useState([]);
 
-  const fetchShops = async () => {
+  const fetchUsers = async () => {
     try {
-      console.log("shopId:", auth.shop?.shopId);
       const response = await api.post("/admin/getnewusers", {
         shopId: auth.shop.shopId,
       });
-      console.log(shops)
-      setShops(response.data);
+      setUsers(response.data);
     } catch (error) {
-      console.error("Failed to fetch shop list:", error);
-      alert("Error fetching your shops.");
+      console.error("Failed to fetch new users:", error);
+      alert("Error fetching new users.");
     }
   };
 
   useEffect(() => {
-    fetchShops();
-  }, []);
+    fetchUsers();
+  }, [auth.shop.shopId]);
 
   const handleDeleteUser = async (email) => {
-    // const response = await api.post("/admin/setrole", {
-    //     shopId: auth.shop.shopId,
-    //   });
-    setShops(prev => prev.filter(user => user.email !== email));
+    try {
+      // Optional: send an API request to delete/reject user
+      setUsers((prev) => prev.filter((user) => user.email !== email));
       console.log("Deleted user:", email);
+    } catch (error) {
+      alert(`Failed to delete user: ${email}`);
+    }
+  };
+
+  const handleRole = async (email, role) => {
+    const payload = {
+      role: role.toUpperCase(),
+      shopDTO: { shopId: auth.shop.shopId },
+      userDTO: { email },
     };
-    const handleRole = async (email,role) => {
-      const response = await api.put("/admin/setrole", {
-        role:role.toUpperCase(),
-        shopDTO:{
-          shopId: auth.shop.shopId,
-        },
-        userDTO:{
-          email:email
+
+    try {
+      const endpoint =
+        role.toUpperCase() === "ADMIN"
+          ? "/admin/setroletoadmin"
+          : "/admin/setrole";
+
+      const response = await api.put(endpoint, payload);
+
+      console.log("Role set successfully:", response.data);
+      setUsers((prev) => prev.filter((user) => user.email !== email));
+    } catch (error) {
+      if (error.response) {
+        const status = error.response.status;
+        const message =
+          error.response.data?.message || error.message || "Unknown error";
+
+        if (status === 401) {
+          alert(`Unauthorized: ${error.response.data.error}`);
+        } else {
+          alert(`Error (${status}): ${message}`);
         }
-      });
-      console.log(response)
-    setShops(prev =>
-      prev.filter(user => user.email !== email)
-    );
-    };
+      } else {
+        alert(`Network or unexpected error: ${error.message}`);
+      }
+    }
+  };
 
-
-    return <ListGenerater list={shops} onDelete={handleDeleteUser} onRole={handleRole} />;
+  return (
+    <ListGenerater list={users} onDelete={handleDeleteUser} onRole={handleRole} />
+  );
 };
+
 export default NewEmployees;

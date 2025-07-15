@@ -31,8 +31,8 @@ public class RoleBasedAccessConfig {
 
     private void addAdminRestrict(){
         admin.addAll(List.of(
-                "admin/**",
-                "/admin/getadminusers"
+                "/admin/changeadminsrole",
+                "/admin/setroletoadmin"
         ));
     }
     private void addUserRestrict(){
@@ -80,11 +80,11 @@ public class RoleBasedAccessConfig {
                     admin.stream().noneMatch(pattern -> matcher.match(pattern, normalizedPath)));
             System.out.println("admin access check result path: " +
                     admin.stream().noneMatch(pattern -> matcher.match(pattern, path)));
-            return admin.stream().noneMatch(pattern -> matcher.match(pattern, normalizedPath));
+            return admin.stream().noneMatch(pattern -> matcher.match(pattern, path));
         } else if (role == Role.USER) {
-            return user.stream().noneMatch(pattern -> matcher.match(pattern, normalizedPath));
+            return user.stream().noneMatch(pattern -> matcher.match(pattern, path));
         } else if (role == Role.CACHE) {
-            return cache.stream().noneMatch(pattern -> matcher.match(pattern, normalizedPath));
+            return cache.stream().noneMatch(pattern -> matcher.match(pattern, path));
         }
         return false;
     }

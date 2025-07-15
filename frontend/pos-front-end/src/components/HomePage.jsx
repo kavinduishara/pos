@@ -59,10 +59,33 @@ const HomePage=()=> {
   const [chache,setChache]=useState(0)
 
   const pay=async()=>{
-  const data =await api.post('/billing/makebill',{
-    billProducts:productList,payment:Number(chache).toFixed(2)
+    try {
+      const data =await api.post('/billing/makebill',{
+        billProducts:productList,payment:Number(chache).toFixed(2)
+      })
+      console.log(data)
+      setProductList([])
+      setChache(0)
+    } catch (error) {
+      if (error.response) {
+        const status = error.response.status;
+        const message =
+          error.response.data?.message || error.message || "Unknown error";
+        console.log(error)
+        console.log(`${error.response.data.error}`)
+        alert(`${error.response.data.error}`);
+        alert(`${message}`);
+        if (status === 400) {
+          alert(`Unauthorized: ${error.response.data.error}`);
+        } else {
+          alert(`Error (${status}): ${message}`);
+        }
+      } else {
+        alert(`Network or unknown error: ${error.message}`);
+      }
+    }
+  
 
-  })
 }
   useEffect(()=>{
     if(search.length==3){
@@ -190,8 +213,7 @@ const HomePage=()=> {
 
                 onClick={()=>{
                   pay()
-                  setProductList([])
-                  setChache(0)
+                  
                 }}
               >pay</button>
               <div>

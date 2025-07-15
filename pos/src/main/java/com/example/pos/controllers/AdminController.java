@@ -57,8 +57,31 @@ public class AdminController {
     public ResponseEntity<?> getCacheUser(HttpServletRequest request){
         return userShopService.getRoleAndUser(getShopFromToken(request), Role.CACHE);
     }
+
     @PutMapping("/setrole")
     public ResponseEntity<?> setUserRole(@RequestBody UserShopDTO userShop, HttpServletRequest request){
+        if(userShop.getRole()==Role.ADMIN){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("this is not for set to admin");
+        }
+        if(!Objects.equals(userShop.getShopDTO().getShopId(), getShopFromToken(request))){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("this is not your shop");
+        }
+
+        return userShopService.setRole(userShop);
+    }
+    @PutMapping("/changeadminsrole")
+    public ResponseEntity<?> changeAdminsRole(@RequestBody UserShopDTO userShop, HttpServletRequest request){
+        if(!Objects.equals(userShop.getShopDTO().getShopId(), getShopFromToken(request))){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("this is not your shop");
+        }
+
+        return userShopService.setAdminsRole(userShop);
+    }
+    @PutMapping("/setroletoadmin")
+    public ResponseEntity<?> setRoleToAdmin(@RequestBody UserShopDTO userShop, HttpServletRequest request){
+        if(userShop.getRole()!=Role.ADMIN){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("this is only for set to admin");
+        }
         if(!Objects.equals(userShop.getShopDTO().getShopId(), getShopFromToken(request))){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("this is not your shop");
         }
