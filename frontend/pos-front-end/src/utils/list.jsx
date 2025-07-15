@@ -14,7 +14,7 @@ const array = [
   { link: 'employees',    text: 'Employees', icon: UserPlus2, element: Employees ,role:["OWNER","ADMIN"] },
   { link: 'statistics',   text: 'Statistics', icon: BarChart3, element: Statistics ,role:["OWNER","ADMIN"] },
   { link: 'profile',      text: 'Profile', icon: User2, element: Profile ,role:["all"] },
-  { link: 'settings',     text: 'Settings', icon: Settings, element: SettingsPage,role:["all"]  },
+  // { link: 'settings',     text: 'Settings', icon: Settings, element: SettingsPage,role:["all"]  },
   { link: 'StoreManager', text: 'StoreManager', icon:Replace, element: StoreManager,role:["all"] },
   
 ];

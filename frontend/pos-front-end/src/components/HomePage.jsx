@@ -68,18 +68,8 @@ const HomePage=()=> {
       setChache(0)
     } catch (error) {
       if (error.response) {
-        const status = error.response.status;
-        const message =
-          error.response.data?.message || error.message || "Unknown error";
-        console.log(error)
-        console.log(`${error.response.data.error}`)
-        alert(`${error.response.data.error}`);
-        alert(`${message}`);
-        if (status === 400) {
-          alert(`Unauthorized: ${error.response.data.error}`);
-        } else {
-          alert(`Error (${status}): ${message}`);
-        }
+        alert(`${error.response.data}`);
+        
       } else {
         alert(`Network or unknown error: ${error.message}`);
       }

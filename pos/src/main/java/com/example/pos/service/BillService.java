@@ -1,6 +1,7 @@
 package com.example.pos.service;
 
 import com.example.pos.dto.BillDTO;
+import com.example.pos.dto.BillProductDTO;
 import com.example.pos.dto.DateDTO;
 import com.example.pos.entities.*;
 import com.example.pos.repository.*;
