@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useUpdateAuth } from '../context/Authcontext';
 import api from '../utils/api';
-import { Navigate, NavLink, useNavigate } from 'react-router-dom';
-import { Plus } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 
 export function ListGenerater({ list }) {

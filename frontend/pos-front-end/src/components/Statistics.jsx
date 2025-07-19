@@ -81,56 +81,71 @@ const Statistics = () => {
       const decayMap = new Map();
       const billElements = [];
 
-      bills.forEach((bill, index) => {
+      bills.sort((a, b) => a.billId - b.billId)
+      .forEach((bill, index) => {
         const date = new Date(bill.issuedAt).toLocaleDateString('en-GB');
         labels.push(date);
         data.push(bill.total);
 
         billElements.push(
-          <div key={index} className="border p-2 rounded hover:bg-gray-100">
+          <div
+            key={index}
+            className="border border-sky-900 p-4 rounded-lg hover:bg-sky-50 transition duration-200 shadow-sm"
+          >
             <button
+              className="w-full text-left text-sky-900 font-medium"
               onClick={() => {
                 setSelectedBill(
-                  <div className="text-sm bg-white p-6 rounded-lg shadow space-y-4 overflow-x-auto">
-                    <h1 className="text-xl font-bold text-sky-800">🧾 Bill ID: {bill.billId}</h1>
-                    <div className="bg-sky-50 p-4 rounded-lg shadow-inner space-y-1">
-                      <h2 className="font-semibold text-sky-700">🏪 Shop Information</h2>
-                      <p><strong>ID:</strong> {bill.shop.shopId}</p>
-                      <p><strong>Name:</strong> {bill.shop.shopName}</p>
-                    </div>
-                    <div className="bg-sky-50 p-4 rounded-lg shadow-inner space-y-1">
-                      <h2 className="font-semibold text-sky-700">👤 Cashier Information</h2>
-                      <p><strong>Full Name:</strong> {bill.user.fullName}</p>
-                      <p><strong>Email:</strong> {bill.user.email}</p>
-                    </div>
-                    <div className="bg-sky-50 p-4 rounded-lg shadow-inner">
-                      <p><strong>🕒 Issued At:</strong> {new Date(bill.issuedAt).toLocaleString()}</p>
-                    </div>
+                  <div className="text-sm bg-white p-6 rounded-lg shadow space-y-6 max-w-3xl mx-auto overflow-x-auto">
+                    <h1 className="text-2xl font-bold text-sky-800">🧾 Bill ID: {bill.billId}</h1>
+
                     <div className="bg-sky-50 p-4 rounded-lg shadow-inner space-y-2">
-                      <h2 className="font-semibold text-sky-700 mb-2">📦 Products</h2>
+                      <h2 className="font-semibold text-sky-700 text-lg">🏪 Shop Information</h2>
+                      <p><span className="font-medium">ID:</span> {bill.shop.shopId}</p>
+                      <p><span className="font-medium">Name:</span> {bill.shop.shopName}</p>
+                    </div>
+
+                    <div className="bg-sky-50 p-4 rounded-lg shadow-inner space-y-2">
+                      <h2 className="font-semibold text-sky-700 text-lg">👤 Cashier Information</h2>
+                      <p><span className="font-medium">Full Name:</span> {bill.user.fullName}</p>
+                      <p><span className="font-medium">Email:</span> {bill.user.email}</p>
+                    </div>
+
+                    <div className="bg-sky-50 p-4 rounded-lg shadow-inner">
+                      <p><span className="font-medium">🕒 Issued At:</span> {new Date(bill.issuedAt).toLocaleString()}</p>
+                    </div>
+
+                    <div className="bg-sky-50 p-4 rounded-lg shadow-inner space-y-4">
+                      <h2 className="font-semibold text-sky-700 text-lg">📦 Products</h2>
                       {bill.billProducts.map((bp, i) => (
-                        <div key={i} className="border border-sky-200 rounded p-3 bg-white shadow-sm">
-                          <p><strong>Product Name:</strong> {bp.productName}</p>
-                          <p><strong>Product ID:</strong> {bp.productId}</p>
-                          <p><strong>Quantity:</strong> {bp.issuedQuantity} {bp.unit}</p>
-                          <p><strong>Price When Bought:</strong> Rs. {bp.priceWhenBought.toFixed(2)}</p>
-                          <p><strong>Existing Quantity:</strong> {bp.existingQuantity}</p>
-                          <p><strong>Unit Price:</strong> Rs. {bp.price.toFixed(2)}</p>
+                        <div key={i} className="border border-sky-200 rounded p-4 bg-white shadow-sm space-y-1">
+                          <p><span className="font-medium">Product Name:</span> {bp.productName}</p>
+                          <p><span className="font-medium">Product ID:</span> {bp.productId}</p>
+                          <p><span className="font-medium">Quantity:</span> {bp.issuedQuantity} {bp.unit}</p>
+                          <p><span className="font-medium">Price When Bought:</span> Rs. {bp.priceWhenBought.toFixed(2)}</p>
+                          <p><span className="font-medium">Existing Quantity:</span> {bp.existingQuantity}</p>
+                          <p><span className="font-medium">Unit Price:</span> Rs. {bp.price.toFixed(2)}</p>
                         </div>
                       ))}
                     </div>
+
                     <div className="bg-sky-100 p-4 rounded-lg shadow-inner space-y-1 text-right">
-                      <p className="text-lg font-semibold text-sky-800">💵 Total: Rs. {bill.total.toFixed(2)}</p>
-                      <p><strong>Payment:</strong> {bill.payment}</p>
+                      <p className="text-xl font-semibold text-sky-800">💵 Total: Rs. {bill.total.toFixed(2)}</p>
+                      <p><span className="font-medium">Payment:</span> {bill.payment}</p>
                     </div>
                   </div>
                 );
                 setFocused('bill');
               }}
             >
-              {bill.billId} — {new Date(bill.issuedAt).toLocaleString()} — {bill.user.fullName}
+              <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2">
+                <span className="text-sm font-semibold">{bill.billId}</span>
+                <span className="text-sm">{new Date(bill.issuedAt).toLocaleString()}</span>
+                <span className="text-sm text-gray-700">{bill.user.fullName}</span>
+              </div>
             </button>
           </div>
+
         );
 
         bill.billProducts.forEach((bp) => {

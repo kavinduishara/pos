@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/Authcontext';
 import api from '../utils/api';
-import { CirclePlus, Notebook, Plus, Save, Trash, X } from 'lucide-react';
+import { CirclePlus,  Save, Trash, X } from 'lucide-react';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export function ListGenerater({ list ,onselect,search}) {
   return (
@@ -24,10 +27,15 @@ export function ListGenerater({ list ,onselect,search}) {
 }
 
 const fetchProduct=async (search,setList)=>{
-      const data = await api.get('/cacher/product/'+search)
-      console.log(search)
-      console.log(data.data)
-      setList(data.data)
+  try {
+    const data = await api.get('/cacher/product/'+search)
+    console.log(search)
+    console.log(data.data)
+    setList(data.data)
+  } catch (error) {
+    toast.error("Failed to get product.");
+  }
+      
 }
 
 const StockManager=(paams) =>{
@@ -77,9 +85,15 @@ const StockManager=(paams) =>{
                 <button className='text-blue-500 hover:text-blue-600'
                 onClick={async() =>
                     {
+                      console.log(select)
+                      try {
                         const data = await api.put('admin/store/changeProduct',select)
                         fetchProduct(search,setList)
-                        console.log(data.data)
+                       toast.success("✅ Product saved successfully!");
+                      } catch (error) {
+                        toast.error("❌ Failed to save product.");
+                      }
+                        
                     }
                 }
                 ><Save/></button>
@@ -91,9 +105,21 @@ const StockManager=(paams) =>{
                 <button className='text-green-500 hover:text-green-600'
                 onClick={async() =>
                     {
-                        const data = await api.post('admin/store/addproduct',select)
-                        fetchProduct(search,setList)
-                        console.log(data.data)
+                      console.log(select)
+                      try {
+                        const payload = {
+                          ...select,
+                          shopId: auth.shop?.shopId // use optional chaining to avoid crash
+                        };
+                        const data = await api.post('admin/store/addproduct',payload)
+                        console.log(data)
+                        console.log(payload)
+                        //fetchProduct(search,setList)
+                        toast.success("✅ Product saved successfully!");
+                      } catch (error) {
+                        toast.error("❌ Failed to save product.");
+                      }
+                        
                     }
                 }
                 ><CirclePlus/></button>

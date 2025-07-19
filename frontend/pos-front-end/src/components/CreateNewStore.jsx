@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Outlet } from "react-router-dom"
 import api from "../utils/api";
+import { toast } from 'react-toastify';
 
 export const CreateNewStore=()=>{
     // const setAuth = useUpdateAuth();
@@ -12,11 +13,10 @@ export const CreateNewStore=()=>{
     
         try {
           const response = await api.post('/shop/createShop', { shopName });
-          console.log('Shop created:', response.data);
+          toast.success('✅ Shop created');
         //   setAuth({shop:shopName});
         } catch (error) {
-          console.error('Failed to create shop:', error);
-          alert('Error creating shop. Check console for details.');
+          toast.error('❌ Error creating shop. Check console for details.');
         }
       };
     return(

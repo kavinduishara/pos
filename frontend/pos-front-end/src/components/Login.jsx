@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import api from '../utils/api';
 import { useNavigate } from 'react-router-dom';
 import { useAuth, useUpdateAuth } from '../context/Authcontext';
+import {toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -19,7 +22,7 @@ function Login() {
       const data = await api.post('/auth/login',{email:email,password:password})
 
       console.log('Login Success:', data.data);
-      alert('Login successful!');
+      toast.success("Login successful!");
       setIsLoggedIn(true);
       navigate("../app/")
       
@@ -27,6 +30,8 @@ function Login() {
 
     } catch (err) {
       console.error('Login failed:', err.message);
+      toast.error("Login failed: " + (err.response?.data?.error || err.message));
+      setIsLoggedIn(false);
       setError(err.message || 'Login failed');
     }
   }

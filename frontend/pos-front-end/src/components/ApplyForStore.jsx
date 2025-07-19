@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useUpdateAuth } from '../context/Authcontext';
 import api from '../utils/api';
 import { Navigate, NavLink, useNavigate } from 'react-router-dom';
+import {  toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export function ListGenerater({ list }) {
@@ -13,15 +15,20 @@ export function ListGenerater({ list }) {
       {list.map((e, index) => (
         <button
           key={index}
-          onClick={async() =>{
-                const response = await api.post('/shop/apply',
-                    {
-                        "shopId":e.shopId
-                    }
-                );
-                console.log(response.data)
+
+          onClick={async () => {
+            try {
+              const response = await api.post('/shop/apply', {
+                shopId: e.shopId,
+              });
+
+              console.log(response.data);
+              toast.success('✅ Applied successfully!');
+            } catch (error) {
+              toast.error('❌ Failed to apply. Please try again.');
             }
-          }
+          }}
+
           className="border-b bg-gray-100 hover:bg-gray-300 text-sky-800 font-semibold py-2"
         >
           {e.shopName}

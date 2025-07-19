@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import ListGenerater from "./ListGenerater"; // adjust path if needed
 import api from "../utils/api";
 import { useAuth } from "../context/Authcontext";
+import { toast } from 'react-toastify';
 
 const AdminEmployees = () => {
   const auth = useAuth();
@@ -14,8 +15,7 @@ const AdminEmployees = () => {
       });
       setUsers(response.data);
     } catch (error) {
-      console.error("Failed to fetch admin user list:", error);
-      alert("Error fetching your admin users.");
+      toast.error('❌ Error fetching your admin users.');
     }
   };
 
@@ -52,12 +52,12 @@ const AdminEmployees = () => {
           error.response.data?.message || error.message || "Unknown error";
 
         if (status === 401) {
-          alert(`Unauthorized: ${error.response.data.error}`);
+          toast.error(`Unauthorized: ${error.response.data.error}`);
         } else {
-          alert(`Error (${status}): ${message}`);
+          toast.error(`Error (${status}): ${message}`);
         }
       } else {
-        alert(`Network or unknown error: ${error.message}`);
+        toast.error(`Network or unknown error: ${error.message}`);
       }
     }
   };

@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/Authcontext';
 import api from '../utils/api';
-import { ShoppingCart, ShoppingCartIcon, X } from 'lucide-react';
+import { ShoppingCart,  X } from 'lucide-react';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export function ListGenerater({ list ,search,onselect}) {
   return (
@@ -43,10 +45,16 @@ export function PoductRow({productList,remove}) {
 }
 
 const fetchProduct=async (search,setList)=>{
-      const data = await api.get('/cacher/product/'+search)
-      console.log(search)
-      console.log(data.data)
-      setList(data.data)
+  try {
+    const data = await api.get('/cacher/product/'+search)
+    console.log(search)
+    console.log(data.data)
+    setList(data.data)
+  } catch (error) {
+    toast.error("❌ Failed to fetch products.");
+    
+  }
+      
 }
 
 const HomePage=()=> {
@@ -68,10 +76,10 @@ const HomePage=()=> {
       setChache(0)
     } catch (error) {
       if (error.response) {
-        alert(`${error.response.data}`);
+        toast.error(`${error.response.data}`);
         
       } else {
-        alert(`Network or unknown error: ${error.message}`);
+        toast.error(`Network or unknown error: ${error.message}`);
       }
     }
   
