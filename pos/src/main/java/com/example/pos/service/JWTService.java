@@ -110,7 +110,7 @@ public class JWTService {
         if (value instanceof Number) {
             return ((Number) value).longValue(); // Safe cast
         }
-        return null; // or throw exception if shop_id is required
+        return ((Number) value).longValue(); // or throw exception if shop_id is required
     }
 
     // Check if token is expired

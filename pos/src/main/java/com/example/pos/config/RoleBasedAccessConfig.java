@@ -53,10 +53,13 @@ public class RoleBasedAccessConfig {
             return Role.USER;
         }
         User user1=userRepo.findByEmail(username);
+        if (user1 == null) {
+            return Role.USER;
+        }
 
         Optional<UserShop> userShop= shopUserRepo.findById(new UserShopPk(
-                user1,
-                new Shop(shopId)
+            user1,
+            new Shop(shopId)
         ));
         if (userShop.isEmpty()) {
             return Role.USER;
