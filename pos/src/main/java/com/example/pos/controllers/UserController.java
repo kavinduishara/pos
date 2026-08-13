@@ -39,7 +39,8 @@ public class UserController {
 //    }
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> login(@RequestBody User user, HttpServletResponse response) {
-
+        System.out.println("user: " + user.getEmail() + ", password: " + user.getPassword());
+        
         return userService.verify(user, response);
     }
 
