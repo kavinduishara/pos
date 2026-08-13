@@ -17,7 +17,7 @@ function Login() {
 
   const setAuth = useUpdateAuth();
 
-  async function loginButton() {
+  async function LoginButton() {
     try {
       const data = await api.post('/auth/login',{email:email,password:password})
 
@@ -63,7 +63,7 @@ function Login() {
         )}
 
         <button
-          onClick={loginButton}
+          onClick={LoginButton}
           disabled={loading}
           className={`rounded-sm bg-sky-500 hover:bg-sky-600 text-white font-semibold py-2 ${
             loading ? 'opacity-50 cursor-not-allowed' : ''
