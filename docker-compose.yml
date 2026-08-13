@@ -1,0 +1,38 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: pos-postgres
+    environment:
+      POSTGRES_DB: newDB
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: "0000"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./pos
+    container_name: pos-backend
+    depends_on:
+      - postgres
+    environment:
+      DB_HOST: postgres
+      DB_NAME: newDB
+      DB_USERNAME: postgres
+      DB_PASSWORD: "0000"
+    ports:
+      - "20000:20000"
+
+  frontend:
+    build:
+      context: ./frontend/pos-front-end
+    container_name: pos-frontend
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+
+volumes:
+  postgres-data:
