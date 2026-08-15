@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pos-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pos
+  template:
+    metadata:
+      labels:
+        app: pos
+    spec:
+      containers:
+        - name: pos
+          image: kavinduishara/pos-back-end:latest
+          ports:
+            - containerPort: 20000
+
+          env:
+            - name: DB_HOST
+              value: postgres-service
+
+            - name: DB_PORT
+              value: "5432"
+
+            - name: DB_NAME
+              value: newDB
+
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: postgres-username
+
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: postgres-password
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+spec:
+  selector:
+    app: pos
+  ports:
+    - protocol: TCP
+      port: 20000
+      targetPort: 20000
