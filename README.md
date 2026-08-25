@@ -35,12 +35,24 @@ A full-stack web application for managing store operations including billing, in
 - React Toastify
 - Lucide Icons
 
-### 🧰 Dev Tools
-- ESLint
-- IntelliJ IDEA (backend)
-- VS Code (frontend)
-
 ---
+## 🐳 DevOps & Deployment
 
-## 📂 Project Structure
+### 🏗️ Containerization
+- Multi-stage **Docker builds** for both services to keep images lean and production-ready
+  - **Backend**: Maven build stage → slim JRE runtime stage
+  - **Frontend**: Node build stage (Vite) → Nginx static-serve stage
+- **Docker Compose** for local multi-container orchestration (backend, frontend, PostgreSQL) with service networking and environment-based config
+
+### ☸️ Kubernetes (Minikube)
+- Deployed the containerized stack to a local **Kubernetes cluster (Minikube)**
+- **Deployments** for backend and frontend with defined replicas and resource limits
+- **Services** (ClusterIP/NodePort) for internal and external traffic routing
+- **ConfigMaps & Secrets** for environment variables and DB credentials
+- **PersistentVolumeClaims** for PostgreSQL data persistence
+
+### 🧰 Tooling
+- Docker, Docker Compose
+- Kubernetes, Minikube, kubectl
+---
 
